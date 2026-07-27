@@ -1,0 +1,147 @@
+---
+import { url } from '../lib/url';
+import { site, nav } from '../data/site';
+---
+
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="nav__brand" href={url('/')}>
+      <span class="nav__mark" aria-hidden="true"></span>
+      {site.short}
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      {nav.map((item) => <a href={url(item.href)}>{item.label}</a>)}
+      <a class="nav__cta" href={url(site.resume)}>CV</a>
+    </nav>
+
+    <button class="nav__theme" type="button" aria-label="Toggle colour theme" data-theme-toggle>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"></circle>
+        <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: var(--rule);
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    min-height: 60px;
+  }
+
+  .nav__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    margin-right: auto;
+  }
+
+  .nav__mark {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-wash);
+    flex: none;
+  }
+
+  .nav__links {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    font-size: 0.88rem;
+  }
+
+  .nav__links a {
+    text-decoration: none;
+    color: var(--text-dim);
+    transition: color 0.15s;
+  }
+
+  .nav__links a:hover {
+    color: var(--text);
+  }
+
+  .nav__cta {
+    font-family: var(--font-mono);
+    font-size: 0.76rem !important;
+    letter-spacing: 0.08em;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0.34rem 0.7rem;
+    color: var(--text) !important;
+  }
+
+  .nav__cta:hover {
+    border-color: var(--accent);
+    color: var(--accent) !important;
+  }
+
+  .nav__theme {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--text-dim);
+    cursor: pointer;
+    flex: none;
+  }
+
+  .nav__theme:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 620px) {
+    .nav__links {
+      gap: 1rem;
+      font-size: 0.82rem;
+    }
+    .nav__brand {
+      font-size: 0.84rem;
+    }
+  }
+
+  @media (max-width: 460px) {
+    .nav__links a:not(.nav__cta) {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const KEY = 'theme';
+  const root = document.documentElement;
+
+  document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+    const current =
+      root.dataset.theme ??
+      (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    const next = current === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem(KEY, next);
+    } catch {
+      /* storage unavailable — theme just won't persist */
+    }
+  });
+</script>

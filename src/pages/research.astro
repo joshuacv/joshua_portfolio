@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+import { publications, talks, awards } from '../data/publications';
+---
+
+<Base
+  title="Research"
+  description="Peer-reviewed publications, invited talks and awards — swarm robotics, collective intelligence and intelligent transport systems."
+>
+  <section class="section section--flush">
+    <div class="wrap">
+      <p class="eyebrow">Research</p>
+      <h1 class="rh__title">Publications &amp; talks</h1>
+      <p class="lede rh__lede">
+        Peer-reviewed work in swarm robotics, collective intelligence and
+        intelligent transport systems, plus invited talks on autonomous mobility.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Peer-reviewed publications</p>
+      <ol class="pubs">
+        {
+          publications.map((p) => (
+            <li class="pub">
+              <div class="pub__year mono">{p.year}</div>
+              <div class="pub__main">
+                <h2 class="pub__title">
+                  {p.href ? (
+                    <a href={p.href} rel="noopener">
+                      {p.title} ↗
+                    </a>
+                  ) : (
+                    p.title
+                  )}
+                </h2>
+                <p class="pub__authors">{p.authors}</p>
+                <p class="pub__venue">{p.venue}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Invited talks</p>
+      <ol class="pubs">
+        {
+          talks.map((t) => (
+            <li class="pub">
+              <div class="pub__year mono">{t.year}</div>
+              <div class="pub__main">
+                <h2 class="pub__title pub__title--sm">{t.title}</h2>
+                <p class="pub__venue">{t.venue}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Honors &amp; awards</p>
+      <ol class="pubs">
+        {
+          awards.map((a) => (
+            <li class="pub">
+              <div class="pub__year mono">{a.year}</div>
+              <div class="pub__main">
+                <h2 class="pub__title pub__title--sm">{a.title}</h2>
+                <p class="pub__venue">{a.org}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .rh__title {
+    font-size: clamp(2rem, 5.4vw, 3.25rem);
+    margin-bottom: 1.1rem;
+  }
+
+  .rh__lede {
+    max-width: 56ch;
+  }
+
+  .pubs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pub {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr);
+    gap: clamp(1rem, 4vw, 2.5rem);
+    padding: 1.6rem 0;
+    border-top: var(--rule);
+  }
+
+  .pub:last-child {
+    border-bottom: var(--rule);
+  }
+
+  .pub__year {
+    padding-top: 0.3rem;
+    color: var(--accent);
+  }
+
+  .pub__title {
+    font-size: 1.05rem;
+    line-height: 1.4;
+    max-width: 62ch;
+    margin-bottom: 0.5rem;
+  }
+
+  .pub__title--sm {
+    font-size: 0.98rem;
+    font-weight: 600;
+  }
+
+  .pub__title a {
+    text-decoration: none;
+  }
+
+  .pub__authors,
+  .pub__venue {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    max-width: var(--measure);
+  }
+
+  .pub__venue {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--text-faint);
+    margin-top: 0.3rem;
+  }
+
+  @media (max-width: 620px) {
+    .pub {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+</style>

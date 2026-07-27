@@ -1,0 +1,100 @@
+---
+import { url } from '../lib/url';
+
+interface Props {
+  video?: string;
+  poster?: string;
+  alt: string;
+  /** Aspect ratio, e.g. "16 / 9" or "21 / 9". */
+  ratio?: string;
+  /** Shown inside the placeholder when no media exists yet. */
+  slotLabel?: string;
+  class?: string;
+}
+
+const {
+  video,
+  poster,
+  alt,
+  ratio = '16 / 9',
+  slotLabel,
+  class: className = '',
+} = Astro.props;
+---
+
+<figure class={`media ${className}`} style={`--ratio: ${ratio}`}>
+  {
+    video ? (
+      <video
+        class="media__el"
+        src={url(video)}
+        poster={poster ? url(poster) : undefined}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label={alt}
+      />
+    ) : poster ? (
+      <img class="media__el" src={url(poster)} alt={alt} loading="lazy" decoding="async" />
+    ) : (
+      <div class="media__slot" role="img" aria-label={`Placeholder: ${alt}`}>
+        <span class="media__slot-label">{slotLabel ?? 'media slot'}</span>
+      </div>
+    )
+  }
+</figure>
+
+<style>
+  .media {
+    margin: 0;
+    position: relative;
+    aspect-ratio: var(--ratio);
+    background: var(--bg-sunken);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .media__el {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Empty state: reads as a deliberate slot, never as a broken image. */
+  .media__slot {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background-image: linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 26px 26px;
+    background-position: center;
+  }
+
+  .media__slot-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    border: 1px solid var(--line);
+    background: var(--bg);
+    padding: 0.45rem 0.85rem;
+    border-radius: 3px;
+  }
+</style>
+
+<script>
+  // Honour reduced-motion: stop looping video from playing on its own.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLVideoElement>('video.media__el').forEach((v) => {
+      v.removeAttribute('autoplay');
+      v.setAttribute('controls', '');
+      v.pause();
+    });
+  }
+</script>

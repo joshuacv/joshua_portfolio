@@ -1,0 +1,343 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+import { experience, education, skills, languages } from '../data/experience';
+import { publications, talks, awards } from '../data/publications';
+
+// This page is generated from the same data as the rest of the site and
+// deliberately carries no street address and no phone number. Keep it that way —
+// it is served publicly and indexed.
+const hasPdf = false; // flip to true once a redacted PDF exists at public/cv.pdf
+---
+
+<Base
+  title="CV"
+  description="Curriculum vitae — Joshua Cherian Varughese, robotics engineer and researcher."
+>
+  <section class="section section--flush">
+    <div class="wrap">
+      <p class="eyebrow">Curriculum vitae</p>
+      <h1 class="cvh__name">{site.name}</h1>
+      <p class="cvh__role">{site.role}</p>
+      <p class="cvh__contact mono">
+        <span>{site.location}</span>
+        <span aria-hidden="true">·</span>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <span aria-hidden="true">·</span>
+        <a href={site.linkedin} rel="noopener">LinkedIn</a>
+      </p>
+
+      {
+        hasPdf && (
+          <p class="cvh__dl">
+            <a class="cvh__btn" href="cv.pdf">
+              Download PDF
+            </a>
+          </p>
+        )
+      }
+
+      <p class="lede cvh__summary">
+        Robotics engineer, lecturer and researcher with 10+ years across autonomous
+        systems, swarm robotics, embedded systems and simulation — spanning
+        industrial robot software development, EU-funded research and real-world
+        robotic deployments.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Experience</p>
+      <ol class="rows">
+        {
+          experience.map((role) => (
+            <li class="row">
+              <div class="row__when mono">{role.period}</div>
+              <div class="row__what">
+                <h2 class="row__head">
+                  {role.org} <span class="row__loc">{role.location}</span>
+                </h2>
+                <p class="row__sub">{role.title}</p>
+                <ul class="row__points">
+                  {role.points.map((pt) => (
+                    <li>{pt}</li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Education</p>
+      <ol class="rows">
+        {
+          education.map((ed) => (
+            <li class="row">
+              <div class="row__when mono">{ed.period}</div>
+              <div class="row__what">
+                <h2 class="row__head">{ed.school}</h2>
+                <p class="row__sub">{ed.degree}</p>
+                <p class="row__note">{ed.note}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Skills</p>
+      <dl class="grid">
+        {
+          skills.map((g) => (
+            <div class="grid__cell">
+              <dt>{g.group}</dt>
+              <dd>{g.items.join(' · ')}</dd>
+            </div>
+          ))
+        }
+        <div class="grid__cell">
+          <dt>Spoken languages</dt>
+          <dd>{languages.join(' · ')}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Selected publications</p>
+      <ol class="rows">
+        {
+          publications.map((p) => (
+            <li class="row">
+              <div class="row__when mono">{p.year}</div>
+              <div class="row__what">
+                <h2 class="row__head row__head--sm">{p.title}</h2>
+                <p class="row__note">{p.authors}</p>
+                <p class="row__venue mono">{p.venue}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Invited talks</p>
+      <ol class="rows">
+        {
+          talks.map((t) => (
+            <li class="row">
+              <div class="row__when mono">{t.year}</div>
+              <div class="row__what">
+                <h2 class="row__head row__head--sm">{t.title}</h2>
+                <p class="row__venue mono">{t.venue}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Honors &amp; awards</p>
+      <ol class="rows">
+        {
+          awards.map((a) => (
+            <li class="row">
+              <div class="row__when mono">{a.year}</div>
+              <div class="row__what">
+                <h2 class="row__head row__head--sm">{a.title}</h2>
+                <p class="row__venue mono">{a.org}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cvh__name {
+    font-size: clamp(2rem, 5.4vw, 3.25rem);
+    margin-bottom: 0.4rem;
+  }
+
+  .cvh__role {
+    color: var(--accent);
+    font-size: 1.05rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .cvh__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0 0 1.6rem;
+  }
+
+  .cvh__contact a {
+    text-decoration: none;
+    color: var(--text-dim);
+  }
+
+  .cvh__contact a:hover {
+    color: var(--accent);
+  }
+
+  .cvh__dl {
+    margin-bottom: 1.6rem;
+  }
+
+  .cvh__btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    padding: 0.62rem 1.05rem;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    border-radius: 3px;
+  }
+
+  .cvh__summary {
+    max-width: 62ch;
+  }
+
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: clamp(1rem, 4vw, 2.5rem);
+    padding: 1.6rem 0;
+    border-top: var(--rule);
+  }
+
+  .row:last-child {
+    border-bottom: var(--rule);
+  }
+
+  .row__when {
+    padding-top: 0.3rem;
+    white-space: nowrap;
+    color: var(--accent);
+  }
+
+  .row__head {
+    font-size: 1.06rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.7rem;
+    line-height: 1.4;
+  }
+
+  .row__head--sm {
+    font-size: 0.98rem;
+    max-width: 62ch;
+  }
+
+  .row__loc {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    font-weight: 400;
+  }
+
+  .row__sub {
+    margin: 0.25rem 0 0.8rem;
+    color: var(--accent);
+    font-size: 0.9rem;
+  }
+
+  .row__points {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--text-dim);
+    font-size: 0.93rem;
+    max-width: var(--measure);
+  }
+
+  .row__points li + li {
+    margin-top: 0.4rem;
+  }
+
+  .row__points li::marker {
+    color: var(--line);
+  }
+
+  .row__note {
+    margin: 0.35rem 0 0;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    max-width: var(--measure);
+  }
+
+  .row__venue {
+    margin: 0.3rem 0 0;
+    color: var(--text-faint);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.4rem 2.5rem;
+    margin: 0;
+    border-top: var(--rule);
+    padding-top: 1.6rem;
+  }
+
+  .grid__cell dt {
+    font-size: 0.88rem;
+    font-weight: 620;
+    margin-bottom: 0.25rem;
+  }
+
+  .grid__cell dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 700px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+
+  /* Printing this page is a reasonable way to produce a clean PDF. */
+  @media print {
+    .section {
+      padding-block: 1.2rem;
+      break-inside: avoid;
+    }
+    .cvh__dl {
+      display: none;
+    }
+  }
+</style>

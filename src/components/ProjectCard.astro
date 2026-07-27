@@ -1,0 +1,195 @@
+---
+import MediaLoop from './MediaLoop.astro';
+import { url } from '../lib/url';
+
+interface Props {
+  project: {
+    id: string;
+    data: {
+      title: string;
+      tagline: string;
+      org: string;
+      period: string;
+      summary: string;
+      tags: string[];
+      video?: string;
+      poster?: string;
+      metrics: { value: string; label: string }[];
+    };
+  };
+  index: number;
+}
+
+const { project, index } = Astro.props;
+const d = project.data;
+const href = url(`/work/${project.id}`);
+const num = String(index + 1).padStart(2, '0');
+---
+
+<article class="card">
+  <a class="card__media-link" href={href} tabindex="-1" aria-hidden="true">
+    <MediaLoop
+      video={d.video}
+      poster={d.poster}
+      alt={`${d.title} — ${d.tagline}`}
+      ratio="16 / 10"
+      slotLabel={`${num} · footage`}
+    />
+  </a>
+
+  <div class="card__body">
+    <p class="card__meta mono">
+      <span class="card__num">{num}</span>
+      <span>{d.org}</span>
+      <span class="card__dot" aria-hidden="true">·</span>
+      <span>{d.period}</span>
+    </p>
+
+    <h3 class="card__title">
+      <a href={href}>{d.title}</a>
+    </h3>
+
+    <p class="card__tagline">{d.tagline}</p>
+    <p class="card__summary">{d.summary}</p>
+
+    {
+      d.metrics.length > 0 && (
+        <dl class="card__metrics">
+          {d.metrics.map((m) => (
+            <div class="card__metric">
+              <dt>{m.value}</dt>
+              <dd>{m.label}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+
+    <ul class="card__tags">
+      {d.tags.map((t) => <li>{t}</li>)}
+    </ul>
+  </div>
+</article>
+
+<style>
+  .card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 3.25rem);
+    align-items: center;
+  }
+
+  /* Alternate sides so the page doesn't read as a uniform list. */
+  .card:nth-child(even) .card__media-link {
+    order: 2;
+  }
+
+  .card__media-link {
+    display: block;
+    text-decoration: none;
+    min-width: 0;
+  }
+
+  .card__body {
+    min-width: 0;
+  }
+
+  .card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0 0 0.85rem;
+  }
+
+  .card__num {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .card__dot {
+    opacity: 0.5;
+  }
+
+  .card__title {
+    font-size: clamp(1.4rem, 3vw, 1.95rem);
+    margin-bottom: 0.4rem;
+  }
+
+  .card__title a {
+    text-decoration: none;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.28s ease;
+  }
+
+  .card__title a:hover {
+    background-size: 100% 1.5px;
+  }
+
+  .card__tagline {
+    color: var(--accent);
+    font-size: 0.95rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .card__summary {
+    color: var(--text-dim);
+    font-size: 0.97rem;
+    margin-bottom: 1.35rem;
+  }
+
+  .card__metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    margin: 0 0 1.35rem;
+    padding: 0.95rem 0;
+    border-block: var(--rule);
+  }
+
+  .card__metric dt {
+    font-size: 1.32rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .card__metric dd {
+    margin: 0.15rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .card__tags li {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0.22rem 0.5rem;
+  }
+
+  @media (max-width: 880px) {
+    .card {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .card:nth-child(even) .card__media-link {
+      order: 0;
+    }
+  }
+</style>

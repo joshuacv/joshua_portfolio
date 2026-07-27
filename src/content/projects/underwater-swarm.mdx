@@ -1,0 +1,102 @@
+---
+title: Underwater Robot Swarms
+tagline: Bio-inspired collective behaviour, validated in the Venice lagoon
+org: Artificial Life Lab, University of Graz
+role: Researcher
+period: 2015 — 2021
+order: 2
+summary: >-
+  Designed and deployed swarms of underwater robots that coordinate using
+  minimalistic local communication — no central controller, no global state.
+  Built the embedded sensing, communication and actuation software, and validated
+  the collective behaviours in real field deployments in the Venice lagoon.
+tags:
+  - Embedded C/C++
+  - Swarm Robotics
+  - Distributed Control
+  - Field Robotics
+  - Sensor Fusion
+  - Simulation
+metrics:
+  - value: "2"
+    label: Peer-reviewed papers
+  - value: Venice
+    label: Real-world field site
+# TODO — add: number of robots in the swarm, deployment duration, depth,
+#        detection accuracy or convergence time from the ALIFE 2019 results.
+video: # e.g. media/underwater-swarm.mp4
+poster: # e.g. media/underwater-swarm.jpg
+links:
+  - label: "Collective event detection… (ALIFE 2019)"
+    href: "#"
+  - label: "CIMAX (Adaptive Behavior, 2020)"
+    href: "#"
+# TODO — replace "#" with DOI links for both papers.
+---
+
+## The problem
+
+Underwater is the hardest place to run a robot swarm. You lose the things
+terrestrial multi-robot systems quietly depend on: no GPS, no reliable
+high-bandwidth radio, no shared clock, and severely limited communication range.
+Anything that assumes a robot knows where it is, or can talk to the whole group,
+is off the table.
+
+The question the lab was asking: can a group of robots that can only exchange
+very small messages with immediate neighbours still reach a *collective*
+decision — detect an event, agree that it happened, and act on it — with no
+central coordinator?
+
+## Approach
+
+The answer we pursued was bio-inspired and deliberately minimalistic. Rather than
+building a consensus protocol, the robots ran simple local rules loosely modelled
+on collective behaviour in biological systems, and the group-level decision
+emerged from the interaction pattern rather than being computed anywhere in
+particular.
+
+I designed and implemented these algorithms in simulation and then ported them
+down to embedded C/C++ running on the physical robots — sensing, inter-robot
+communication and actuation modules. That full-stack path from behaviour model to
+firmware is where most of the interesting failures live: a rule that converges
+cleanly in simulation can be destroyed by a message-loss rate the simulator never
+modelled.
+
+Two results came out of this line of work: **collective event detection using
+bio-inspired minimalistic communication** (ALIFE 2019), and **CIMAX**, on
+collective information maximization using local communication (Adaptive Behavior,
+2020).
+
+{/* TODO — Expand. Worth adding:
+     - what the robots actually sensed and what "event" meant concretely
+     - the communication modality (acoustic? optical? blue light?) and its bitrate
+     - the core local rule, ideally as 5–10 lines of pseudocode
+     - how you bridged the sim-to-real gap in communication reliability */}
+
+## Field deployment
+
+The behaviours were validated in real deployments in the **Venice lagoon** — a
+site with genuinely adversarial conditions for this class of system: turbidity,
+currents, and communication characteristics that no lab tank reproduces.
+
+Field robotics is a different discipline from lab robotics. The constraints stop
+being algorithmic and start being logistical: what you can debug from a boat,
+what you can recover if it fails, how many runs you get per day.
+
+{/* TODO — This section will carry the whole page once you add footage.
+     Underwater swarm video is genuinely rare and memorable — if you have any
+     clips or stills from Venice, they belong at the top of this page.
+     Also worth writing: one concrete story of something that failed in the
+     field and how you diagnosed it with limited tooling. */}
+
+## Why it matters
+
+Minimalistic-communication swarms are a useful stress test for a broader question
+in multi-robot autonomy: how much coordination can you get from how little
+information? The constraints that make underwater hard — partial observability,
+unreliable communication, no global state — are the same constraints that show up
+in any decentralised multi-agent system operating in the real world.
+
+{/* TODO — Optional: a short paragraph connecting this to modern multi-agent RL
+     and decentralised policy learning — where learned components would now
+     outperform hand-designed local rules, and where they would not. */}

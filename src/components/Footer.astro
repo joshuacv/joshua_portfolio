@@ -1,0 +1,52 @@
+---
+import { site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="wrap foot__inner">
+    <p class="mono foot__note">
+      © {year} {site.name} · {site.location}
+    </p>
+    <p class="mono foot__links">
+      <a href={`mailto:${site.email}`}>Email</a>
+      <a href={site.linkedin} rel="me noopener">LinkedIn</a>
+      <a href={site.github} rel="me noopener">GitHub</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    border-top: var(--rule);
+    padding-block: 2.25rem;
+  }
+
+  .foot__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .foot__note,
+  .foot__links {
+    margin: 0;
+  }
+
+  .foot__links {
+    display: flex;
+    gap: 1.3rem;
+  }
+
+  .foot__links a {
+    text-decoration: none;
+    color: var(--text-faint);
+  }
+
+  .foot__links a:hover {
+    color: var(--accent);
+  }
+</style>

@@ -1,0 +1,405 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { url } from '../lib/url';
+import { site } from '../data/site';
+import { experience, skills, education } from '../data/experience';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<Base>
+  <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+  <section class="section section--flush hero">
+    <div class="wrap">
+      <p class="eyebrow hero__eyebrow">{site.role}</p>
+
+      <h1 class="hero__title">
+        I take autonomy from <em>theory</em> to <em>deployed hardware</em>.
+      </h1>
+
+      <p class="lede hero__lede">
+        Ten years across swarm intelligence, industrial mobile robots and autonomous
+        mobility — a PhD in collective behaviour, production C++ shipped on
+        award-winning AMRs, and field deployments from the Venice lagoon to public
+        transport in Austria.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#work">Selected work</a>
+        <a class="btn" href={url(site.resume)}>View CV</a>
+        <a class="btn" href={`mailto:${site.email}`}>Get in touch</a>
+      </div>
+
+      <dl class="hero__stats">
+        <div><dt>10+</dt><dd>years in robotics</dd></div>
+        <div><dt>€10M+</dt><dd>EU-funded research</dd></div>
+        <div><dt>5</dt><dd>peer-reviewed papers</dd></div>
+        <div><dt>4</dt><dd>languages spoken</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ── Work ──────────────────────────────────────────────────────────── -->
+  <section class="section" id="work">
+    <div class="wrap">
+      <p class="eyebrow">Selected work</p>
+      <div class="work">
+        {projects.map((p, i) => <ProjectCard project={p} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── About ─────────────────────────────────────────────────────────── -->
+  <section class="section" id="about">
+    <div class="wrap about">
+      <div class="about__intro">
+        <p class="eyebrow">About</p>
+        <p class="lede">
+          I work at the seam where research meets hardware that has to survive
+          contact with the real world.
+        </p>
+        <p class="about__body">
+          My PhD asked whether the many bio-inspired swarm behaviours in the
+          literature were really separate algorithms, or one algorithm wearing
+          different clothes. Answering it meant taking theory all the way down to
+          embedded C on robots dropped into the Venice lagoon. Since then I have
+          spent three years writing production C++ for industrial mobile robots,
+          and now lead EU-funded work on autonomous mobility and last-mile
+          delivery at JKU.
+        </p>
+        <p class="about__body">
+          What connects those is a preference for systems that get built and
+          measured rather than only published. I am most useful on problems that
+          span the whole stack — perception and estimation through planning and
+          control, down to the firmware and the wiring.
+        </p>
+        <p class="about__body">
+          Currently based in {site.location}, and increasingly focused on bringing
+          learning-based methods into deployed robotic systems.
+        </p>
+      </div>
+
+      <div class="about__side">
+        <h2 class="about__h">Capabilities</h2>
+        <dl class="skills">
+          {
+            skills.map((g) => (
+              <div class="skills__row">
+                <dt>{g.group}</dt>
+                <dd>{g.items.join(' · ')}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Experience ────────────────────────────────────────────────────── -->
+  <section class="section" id="experience">
+    <div class="wrap">
+      <p class="eyebrow">Experience</p>
+      <ol class="cv">
+        {
+          experience.map((role) => (
+            <li class="cv__item">
+              <div class="cv__when mono">{role.period}</div>
+              <div class="cv__what">
+                <h3 class="cv__org">
+                  {role.org} <span class="cv__loc">{role.location}</span>
+                </h3>
+                <p class="cv__title">{role.title}</p>
+                <ul class="cv__points">
+                  {role.points.map((pt) => (
+                    <li>{pt}</li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <h2 class="about__h about__h--spaced">Education</h2>
+      <ol class="cv">
+        {
+          education.map((ed) => (
+            <li class="cv__item">
+              <div class="cv__when mono">{ed.period}</div>
+              <div class="cv__what">
+                <h3 class="cv__org">{ed.school}</h3>
+                <p class="cv__title">{ed.degree}</p>
+                <p class="cv__note">{ed.note}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ── Contact ───────────────────────────────────────────────────────── -->
+  <section class="section" id="contact">
+    <div class="wrap wrap--narrow contact">
+      <p class="eyebrow">Contact</p>
+      <h2 class="contact__title">
+        Open to roles bringing learning into deployed robotic systems.
+      </h2>
+      <p class="lede">
+        If you are working on robot learning, autonomous mobility, or moving
+        research-grade autonomy into products, I would like to hear about it.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href={`mailto:${site.email}`}>{site.email}</a>
+        <a class="btn" href={site.linkedin} rel="noopener">LinkedIn</a>
+        <a class="btn" href={url('/research')}>Publications</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .hero {
+    padding-top: clamp(3.5rem, 11vw, 8rem);
+  }
+
+  .hero__eyebrow {
+    white-space: nowrap;
+  }
+
+  .hero__title {
+    font-size: clamp(2.2rem, 6.4vw, 4.35rem);
+    max-width: 17ch;
+    margin-bottom: 1.6rem;
+  }
+
+  .hero__title em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero__lede {
+    max-width: 60ch;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 2.1rem;
+  }
+
+  .btn {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    padding: 0.62rem 1.05rem;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    color: var(--text);
+    transition:
+      border-color 0.15s,
+      color 0.15s,
+      background 0.15s;
+  }
+
+  .btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .btn--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .btn--primary:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent-dim);
+    color: #fff;
+  }
+
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1.5rem;
+    margin: clamp(3rem, 7vw, 5rem) 0 0;
+    padding-top: 1.6rem;
+    border-top: var(--rule);
+  }
+
+  .hero__stats dt {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
+  .hero__stats dd {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.71rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  /* ── Work ─────────────────────────────────────────────────────────────── */
+  .work {
+    display: grid;
+    gap: clamp(3.5rem, 8vw, 6.5rem);
+  }
+
+  /* ── About ────────────────────────────────────────────────────────────── */
+  .about {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 4.5rem);
+  }
+
+  .about__body {
+    color: var(--text-dim);
+    max-width: var(--measure);
+  }
+
+  .about__intro .lede {
+    margin-bottom: 1.6rem;
+    color: var(--text);
+  }
+
+  .about__h {
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 400;
+    margin-bottom: 1.1rem;
+  }
+
+  .about__h--spaced {
+    margin-top: 3.5rem;
+  }
+
+  .skills {
+    margin: 0;
+    border-top: var(--rule);
+  }
+
+  .skills__row {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .skills__row dt {
+    font-size: 0.86rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+
+  .skills__row dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  /* ── CV list ──────────────────────────────────────────────────────────── */
+  .cv {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cv__item {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: clamp(1rem, 4vw, 2.5rem);
+    padding: 1.9rem 0;
+    border-top: var(--rule);
+  }
+
+  .cv__item:last-child {
+    border-bottom: var(--rule);
+  }
+
+  .cv__when {
+    padding-top: 0.3rem;
+    white-space: nowrap;
+  }
+
+  .cv__org {
+    font-size: 1.08rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.7rem;
+  }
+
+  .cv__loc {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    font-weight: 400;
+  }
+
+  .cv__title {
+    margin: 0.25rem 0 0.9rem;
+    color: var(--accent);
+    font-size: 0.9rem;
+  }
+
+  .cv__points {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--text-dim);
+    font-size: 0.94rem;
+    max-width: var(--measure);
+  }
+
+  .cv__points li + li {
+    margin-top: 0.42rem;
+  }
+
+  .cv__points li::marker {
+    color: var(--line);
+  }
+
+  .cv__note {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    max-width: var(--measure);
+  }
+
+  /* ── Contact ──────────────────────────────────────────────────────────── */
+  .contact {
+    text-align: left;
+  }
+
+  .contact__title {
+    font-size: clamp(1.6rem, 4vw, 2.5rem);
+    margin-bottom: 1.2rem;
+    max-width: 20ch;
+  }
+
+  /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 880px) {
+    .about {
+      grid-template-columns: 1fr;
+    }
+    .cv__item {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+  }
+</style>

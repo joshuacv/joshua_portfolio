@@ -15,7 +15,6 @@ tags:
   - ROS
   - Localization
   - Particle Filter
-  - NDT / ICP
   - CAN / CANopen
   - EtherCAT
   - Embedded
@@ -24,14 +23,12 @@ metrics:
     label: Product iterations shipped
   - value: 2.5 yrs
     label: Prototype to deployment
-# TODO — add real numbers once you can share them, e.g.:
-#   - localization accuracy (cm), pose update rate (Hz)
-#   - fleet size deployed, uptime, cycle-time improvement
-#   - test coverage or validation hours
 video: # e.g. media/fastbots.mp4
 poster: # e.g. media/fastbots.jpg
-links: []
-# TODO — add a link to the DS Automotion Fastbots product page and any award coverage.
+links:
+  - label: Fastbots solution nominated — SSI Schäfer
+    href: https://www.ssi-schaefer.com/de-at/newsroom/news/fastbots-solution-nominiert-1991536
+# TODO — add the DS Automotion Fastbots product page too, if there is a public one.
 ---
 
 ## The problem
@@ -72,32 +69,8 @@ here — it was the job. Moving a prototype onto a deployable platform is mostly
 sequence of negotiations about what the software can absorb versus what the
 hardware has to fix.
 
-{/* TODO — Expand this section. The strongest technical detail you can add:
-     - which estimators you used and why (particle filter vs NDT/ICP scan matching)
-     - how the interface was structured (what the abstraction actually looked like)
-     - the sensor suite: lidar, odometry, IMU, reflectors?
-     - how you handled the dynamic-environment / map-drift problem
-     A short code snippet or an interface sketch would land well here. */}
-
-{/* TODO — ADD A "## What was hard" SECTION HERE.
-     One or two concrete failures and how they were diagnosed. Candidates:
-     - a localization failure mode chased down in the field
-     - a timing / real-time issue in the control or driver layer
-     - something that worked in simulation but not on the factory floor
-     Check what the employment agreement permits before writing specifics.
-     Heading omitted until written so the live page shows no empty section. */}
-
 ## Outcome
 
-Fastbots shipped as an award-winning product, with the localization interface and
+Fastbots shipped as an [award-winning product](https://www.ssi-schaefer.com/de-at/newsroom/news/fastbots-solution-nominiert-1991536), with the localization interface and
 control modules I built in the core of the system. The three-iteration cycle I
 supported established the validation loop the platform continued to develop on.
-
-{/* TODO — add the specific award name and year, plus any deployment numbers you
-     are permitted to share. */}
-
-{/* TODO — ADD A "## What I would do differently" SECTION HERE.
-     Two or three sentences. Signals seniority more than anything else on the page.
-     Example angles: where you would have invested in simulation/CI earlier, an
-     abstraction you would draw differently now, or where you would introduce
-     learned components today. */}

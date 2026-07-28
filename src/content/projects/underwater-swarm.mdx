@@ -7,7 +7,7 @@ period: 2015 — 2021
 order: 2
 summary: >-
   Designed and deployed swarms of underwater robots that coordinate using
-  minimalistic local communication — no central controller, no global state.
+  minimalistic local communication — no central controller, no globally communicated state.
   Built the embedded sensing, communication and actuation software, and validated
   the collective behaviours in real field deployments in the Venice lagoon.
 tags:
@@ -18,12 +18,11 @@ tags:
   - Sensor Fusion
   - Simulation
 metrics:
-  - value: "2"
+  - value: "12"
     label: Peer-reviewed papers
-  - value: Venice
+  - value: Venice, Graz
     label: Real-world field site
-# TODO — add: number of robots in the swarm, deployment duration, depth,
-#        detection accuracy or convergence time from the ALIFE 2019 results.
+
 video: # e.g. media/underwater-swarm.mp4
 poster: # e.g. media/underwater-swarm.jpg
 links:
@@ -31,7 +30,6 @@ links:
     href: "#"
   - label: "CIMAX (Adaptive Behavior, 2020)"
     href: "#"
-# TODO — replace "#" with DOI links for both papers.
 ---
 
 ## The problem
@@ -67,11 +65,6 @@ bio-inspired minimalistic communication** (ALIFE 2019), and **CIMAX**, on
 collective information maximization using local communication (Adaptive Behavior,
 2020).
 
-{/* TODO — Expand. Worth adding:
-     - what the robots actually sensed and what "event" meant concretely
-     - the communication modality (acoustic? optical? blue light?) and its bitrate
-     - the core local rule, ideally as 5–10 lines of pseudocode
-     - how you bridged the sim-to-real gap in communication reliability */}
 
 ## Field deployment
 
@@ -83,12 +76,6 @@ Field robotics is a different discipline from lab robotics. The constraints stop
 being algorithmic and start being logistical: what you can debug from a boat,
 what you can recover if it fails, how many runs you get per day.
 
-{/* TODO — This section will carry the whole page once you add footage.
-     Underwater swarm video is genuinely rare and memorable — if you have any
-     clips or stills from Venice, they belong at the top of this page.
-     Also worth writing: one concrete story of something that failed in the
-     field and how you diagnosed it with limited tooling. */}
-
 ## Why it matters
 
 Minimalistic-communication swarms are a useful stress test for a broader question
@@ -96,7 +83,3 @@ in multi-robot autonomy: how much coordination can you get from how little
 information? The constraints that make underwater hard — partial observability,
 unreliable communication, no global state — are the same constraints that show up
 in any decentralised multi-agent system operating in the real world.
-
-{/* TODO — Optional: a short paragraph connecting this to modern multi-agent RL
-     and decentralised policy learning — where learned components would now
-     outperform hand-designed local rules, and where they would not. */}

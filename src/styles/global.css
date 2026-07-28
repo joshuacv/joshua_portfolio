@@ -1,45 +1,14 @@
 /* ── Design tokens ───────────────────────────────────────────────────────── */
 
+/* Light is the default: every visitor lands here regardless of their OS
+   setting. Dark is opt-in via the header toggle, which sets data-theme="dark".
+   To follow the visitor's OS preference instead, add:
+     @media (prefers-color-scheme: dark) {
+       :root:not([data-theme='light']) { …dark tokens… }
+     }                                                                        */
 :root {
-  --bg: #0b0c0e;
-  --bg-raised: #131518;
-  --bg-sunken: #08090a;
-  --line: #23262b;
-  --line-soft: #191c20;
-  --text: #e8eaed;
-  --text-dim: #9aa1a9;
-  --text-faint: #6b727a;
-  --accent: #ff6a2b;
-  --accent-dim: #c74f1d;
-  --accent-wash: rgba(255, 106, 43, 0.09);
+  color-scheme: light;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas,
-    "Liberation Mono", monospace;
-
-  --measure: 68ch;
-  --gutter: clamp(1.25rem, 5vw, 4rem);
-  --rule: 1px solid var(--line);
-}
-
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme='dark']) {
-    --bg: #fbfbfa;
-    --bg-raised: #ffffff;
-    --bg-sunken: #f2f2f0;
-    --line: #dedcd7;
-    --line-soft: #eae8e4;
-    --text: #16181b;
-    --text-dim: #565c63;
-    --text-faint: #868d95;
-    --accent: #d4451a;
-    --accent-dim: #a8360f;
-    --accent-wash: rgba(212, 69, 26, 0.07);
-  }
-}
-
-:root[data-theme='light'] {
   --bg: #fbfbfa;
   --bg-raised: #ffffff;
   --bg-sunken: #f2f2f0;
@@ -51,6 +20,31 @@
   --accent: #d4451a;
   --accent-dim: #a8360f;
   --accent-wash: rgba(212, 69, 26, 0.07);
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  --measure: 68ch;
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --rule: 1px solid var(--line);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #0b0c0e;
+  --bg-raised: #131518;
+  --bg-sunken: #08090a;
+  --line: #23262b;
+  --line-soft: #191c20;
+  --text: #e8eaed;
+  --text-dim: #9aa1a9;
+  --text-faint: #6b727a;
+  --accent: #ff6a2b;
+  --accent-dim: #c74f1d;
+  --accent-wash: rgba(255, 106, 43, 0.09);
 }
 
 /* ── Base ────────────────────────────────────────────────────────────────── */

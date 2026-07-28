@@ -1,50 +1,102 @@
 ---
 import Base from '../layouts/Base.astro';
-import { publications, talks, awards } from '../data/publications';
+import {
+  publications,
+  areas,
+  scholarMetrics,
+  talks,
+  awards,
+} from '../data/publications';
+
+const byArea = areas.map((a) => ({
+  ...a,
+  items: publications
+    .filter((p) => p.area === a.id)
+    .sort((x, y) => Number(y.year) - Number(x.year)),
+}));
+
+const peerReviewed = publications.filter((p) => !p.kind).length;
+
+/** Splits an author string so the site owner's name can be emphasised. */
+function splitAuthors(authors: string): { text: string; me: boolean }[] {
+  return authors.split(/(J\. C\. Varughese)/g).map((text) => ({
+    text,
+    me: text === 'J. C. Varughese',
+  }));
+}
 ---
 
 <Base
   title="Research"
-  description="Peer-reviewed publications, invited talks and awards — swarm robotics, collective intelligence and intelligent transport systems."
+  description="Peer-reviewed publications, preprints, invited talks and awards — swarm robotics, biohybrid systems and intelligent transport."
 >
   <section class="section section--flush">
     <div class="wrap">
       <p class="eyebrow">Research</p>
-      <h1 class="rh__title">Publications &amp; talks</h1>
+      <h1 class="rh__title">Publications</h1>
       <p class="lede rh__lede">
-        Peer-reviewed work in swarm robotics, collective intelligence and
-        intelligent transport systems, plus invited talks on autonomous mobility.
+        Work spanning bio-inspired collective behaviour, biohybrid environmental
+        sensing, and autonomous mobility — from doctoral research on swarm
+        algorithms through to current work on pedestrian safety around autonomous
+        vehicles.
+      </p>
+
+      <dl class="rh__stats">
+        <div><dt>{peerReviewed}</dt><dd>peer-reviewed</dd></div>
+        <div><dt>{scholarMetrics.citations}</dt><dd>citations</dd></div>
+        <div><dt>{scholarMetrics.hIndex}</dt><dd>h-index</dd></div>
+        <div><dt>{scholarMetrics.i10Index}</dt><dd>i10-index</dd></div>
+      </dl>
+
+      <p class="rh__scholar mono">
+        <a href={scholarMetrics.profile} rel="noopener">Google Scholar ↗</a>
       </p>
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap">
-      <p class="eyebrow">Peer-reviewed publications</p>
-      <ol class="pubs">
-        {
-          publications.map((p) => (
-            <li class="pub">
-              <div class="pub__year mono">{p.year}</div>
-              <div class="pub__main">
-                <h2 class="pub__title">
-                  {p.href ? (
-                    <a href={p.href} rel="noopener">
-                      {p.title} ↗
-                    </a>
-                  ) : (
-                    p.title
-                  )}
-                </h2>
-                <p class="pub__authors">{p.authors}</p>
-                <p class="pub__venue">{p.venue}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
+  {
+    byArea.map((area) => (
+      <section class="section">
+        <div class="wrap">
+          <p class="eyebrow">{area.label}</p>
+          <p class="area__blurb">{area.blurb}</p>
+
+          <ol class="pubs">
+            {area.items.map((p) => (
+              <li class="pub">
+                <div class="pub__year mono">{p.year}</div>
+                <div class="pub__main">
+                  <h2 class="pub__title">
+                    {p.href ? (
+                      <a href={p.href} rel="noopener">
+                        {p.title} ↗
+                      </a>
+                    ) : (
+                      p.title
+                    )}
+                  </h2>
+                  <p class="pub__authors">
+                    {splitAuthors(p.authors).map((part) =>
+                      part.me ? <strong>{part.text}</strong> : part.text
+                    )}
+                  </p>
+                  <p class="pub__meta">
+                    <span class="pub__venue mono">{p.venue}</span>
+                    {p.kind && <span class="pub__tag mono">{p.kind}</span>}
+                    {p.citations !== undefined && p.citations > 0 && (
+                      <span class="pub__cites mono">
+                        {p.citations} citation{p.citations === 1 ? '' : 's'}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    ))
+  }
 
   <section class="section">
     <div class="wrap">
@@ -56,7 +108,7 @@ import { publications, talks, awards } from '../data/publications';
               <div class="pub__year mono">{t.year}</div>
               <div class="pub__main">
                 <h2 class="pub__title pub__title--sm">{t.title}</h2>
-                <p class="pub__venue">{t.venue}</p>
+                <p class="pub__venue mono">{t.venue}</p>
               </div>
             </li>
           ))
@@ -75,7 +127,7 @@ import { publications, talks, awards } from '../data/publications';
               <div class="pub__year mono">{a.year}</div>
               <div class="pub__main">
                 <h2 class="pub__title pub__title--sm">{a.title}</h2>
-                <p class="pub__venue">{a.org}</p>
+                <p class="pub__venue mono">{a.org}</p>
               </div>
             </li>
           ))
@@ -92,7 +144,52 @@ import { publications, talks, awards } from '../data/publications';
   }
 
   .rh__lede {
-    max-width: 56ch;
+    max-width: 58ch;
+  }
+
+  .rh__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1.5rem;
+    margin: clamp(2.25rem, 5vw, 3.25rem) 0 1.4rem;
+    padding-top: 1.6rem;
+    border-top: var(--rule);
+  }
+
+  .rh__stats dt {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--accent);
+  }
+
+  .rh__stats dd {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.71rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .rh__scholar {
+    margin: 0;
+  }
+
+  .rh__scholar a {
+    text-decoration: none;
+    color: var(--text-dim);
+  }
+
+  .rh__scholar a:hover {
+    color: var(--accent);
+  }
+
+  .area__blurb {
+    color: var(--text-dim);
+    max-width: 62ch;
+    margin: -0.6rem 0 1.9rem;
+    font-size: 0.96rem;
   }
 
   .pubs {
@@ -103,9 +200,9 @@ import { publications, talks, awards } from '../data/publications';
 
   .pub {
     display: grid;
-    grid-template-columns: 90px minmax(0, 1fr);
-    gap: clamp(1rem, 4vw, 2.5rem);
-    padding: 1.6rem 0;
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: clamp(1rem, 4vw, 2.25rem);
+    padding: 1.5rem 0;
     border-top: var(--rule);
   }
 
@@ -119,10 +216,10 @@ import { publications, talks, awards } from '../data/publications';
   }
 
   .pub__title {
-    font-size: 1.05rem;
-    line-height: 1.4;
+    font-size: 1.02rem;
+    line-height: 1.45;
     max-width: 62ch;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.45rem;
   }
 
   .pub__title--sm {
@@ -134,19 +231,44 @@ import { publications, talks, awards } from '../data/publications';
     text-decoration: none;
   }
 
-  .pub__authors,
-  .pub__venue {
+  .pub__authors {
     margin: 0;
-    font-size: 0.88rem;
+    font-size: 0.87rem;
     color: var(--text-dim);
     max-width: var(--measure);
   }
 
+  .pub__authors strong {
+    color: var(--text);
+    font-weight: 640;
+  }
+
+  .pub__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.9rem;
+    margin: 0.4rem 0 0;
+  }
+
   .pub__venue {
-    font-family: var(--font-mono);
-    font-size: 0.76rem;
     color: var(--text-faint);
-    margin-top: 0.3rem;
+    margin: 0;
+  }
+
+  .pub__tag {
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.64rem;
+  }
+
+  .pub__cites {
+    color: var(--text-faint);
+    opacity: 0.85;
   }
 
   @media (max-width: 620px) {

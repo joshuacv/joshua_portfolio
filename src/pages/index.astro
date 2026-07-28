@@ -5,10 +5,13 @@ import ProjectCard from '../components/ProjectCard.astro';
 import { url } from '../lib/url';
 import { site } from '../data/site';
 import { experience, skills, education } from '../data/experience';
+import { publications, scholarMetrics } from '../data/publications';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
   (a, b) => a.data.order - b.data.order
 );
+
+const peerReviewed = publications.filter((p) => !p.kind).length;
 ---
 
 <Base>
@@ -37,8 +40,8 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
       <dl class="hero__stats">
         <div><dt>10+</dt><dd>years in robotics</dd></div>
         <div><dt>€10M+</dt><dd>EU-funded research</dd></div>
-        <div><dt>5</dt><dd>peer-reviewed papers</dd></div>
-        <div><dt>4</dt><dd>languages spoken</dd></div>
+        <div><dt>{peerReviewed}</dt><dd>peer-reviewed papers</dd></div>
+        <div><dt>{scholarMetrics.citations}+</dt><dd>citations</dd></div>
       </dl>
     </div>
   </section>

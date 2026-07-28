@@ -9,7 +9,7 @@ export const site = {
   // reason for it to sit in a repo or a published page. Keep it on the CV you
   // send directly.
   linkedin: 'https://www.linkedin.com/in/jcvarughese',
-  scholar: '', // TODO: add Google Scholar profile URL
+  scholar: 'https://scholar.google.com/citations?user=6MvaaMsAAAAJ&hl=en',
   github: 'https://github.com/joshuacv',
   /**
    * The on-site CV page — no street address, no phone number, safe to index.

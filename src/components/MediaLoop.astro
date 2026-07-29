@@ -9,6 +9,10 @@ interface Props {
   ratio?: string;
   /** Shown inside the placeholder when no media exists yet. */
   slotLabel?: string;
+  /** Attribution for third-party media, rendered beneath the frame. */
+  credit?: { text: string; href?: string };
+  /** Scale mode. Use "contain" for images smaller than the frame. */
+  fit?: 'cover' | 'contain';
   class?: string;
 }
 
@@ -18,11 +22,14 @@ const {
   alt,
   ratio = '16 / 9',
   slotLabel,
+  credit,
+  fit = 'cover',
   class: className = '',
 } = Astro.props;
 ---
 
-<figure class={`media ${className}`} style={`--ratio: ${ratio}`}>
+<figure class={`media ${className}`} style={`--ratio: ${ratio}; --fit: ${fit}`}>
+  <div class="media__frame">
   {
     video ? (
       <video
@@ -44,11 +51,30 @@ const {
       </div>
     )
   }
+  </div>
+
+  {
+    credit && (
+      <figcaption class="media__credit">
+        Image:{' '}
+        {credit.href ? (
+          <a href={credit.href} rel="noopener nofollow">
+            {credit.text}
+          </a>
+        ) : (
+          credit.text
+        )}
+      </figcaption>
+    )
+  }
 </figure>
 
 <style>
   .media {
     margin: 0;
+  }
+
+  .media__frame {
     position: relative;
     aspect-ratio: var(--ratio);
     background: var(--bg-sunken);
@@ -57,10 +83,26 @@ const {
     overflow: hidden;
   }
 
+  .media__credit {
+    margin-top: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: var(--text-faint);
+  }
+
+  .media__credit a {
+    color: inherit;
+  }
+
+  .media__credit a:hover {
+    color: var(--accent);
+  }
+
   .media__el {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: var(--fit, cover);
   }
 
   /* Empty state: reads as a deliberate slot, never as a broken image. */

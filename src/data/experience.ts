@@ -26,7 +26,7 @@ export const experience: Role[] = [
     period: '09/2021 — 03/2024',
     points: [
       'Built C++ drivers and control modules for industrial mobile robots — localization, actuation and battery systems.',
-      'Spearheaded hardware integration, software development and testing of the award-winning Fastbots system across its first three iterations.',
+      'Spearheaded hardware integration, software development and testing of the Fastbots system across its first three iterations.',
       'Implemented the core localization interface and other central components of the shipped Fastbots product.',
       'Contributed to software architecture decisions for scalable, production-grade autonomous systems.',
       'Worked across mechanical, electrical and product teams to move prototypes onto deployable robotic platforms.',

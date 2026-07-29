@@ -14,6 +14,8 @@ interface Props {
       tags: string[];
       video?: string;
       poster?: string;
+      thumbnail?: string;
+      mediaCredit?: { text: string; href?: string };
       metrics: { value: string; label: string }[];
     };
   };
@@ -22,20 +24,38 @@ interface Props {
 
 const { project, index } = Astro.props;
 const d = project.data;
+// Prefer a dedicated card image; fall back to the hero poster.
+const cardImage = d.thumbnail ?? d.poster;
 const href = url(`/work/${project.id}`);
 const num = String(index + 1).padStart(2, '0');
 ---
 
 <article class="card">
-  <a class="card__media-link" href={href} tabindex="-1" aria-hidden="true">
-    <MediaLoop
-      video={d.video}
-      poster={d.poster}
-      alt={`${d.title} — ${d.tagline}`}
-      ratio="16 / 10"
-      slotLabel={`${num} · footage`}
-    />
-  </a>
+  <div class="card__media">
+    <a class="card__media-link" href={href} tabindex="-1" aria-hidden="true">
+      <MediaLoop
+        video={d.video}
+        poster={cardImage}
+        alt={`${d.title} — ${d.tagline}`}
+        ratio="16 / 10"
+        slotLabel={`${num} · footage`}
+      />
+    </a>
+    {
+      d.mediaCredit && (
+        <p class="card__credit">
+          Image:{' '}
+          {d.mediaCredit.href ? (
+            <a href={d.mediaCredit.href} rel="noopener nofollow">
+              {d.mediaCredit.text}
+            </a>
+          ) : (
+            d.mediaCredit.text
+          )}
+        </p>
+      )
+    }
+  </div>
 
   <div class="card__body">
     <p class="card__meta mono">
@@ -80,14 +100,34 @@ const num = String(index + 1).padStart(2, '0');
   }
 
   /* Alternate sides so the page doesn't read as a uniform list. */
-  .card:nth-child(even) .card__media-link {
+  .card:nth-child(even) .card__media {
     order: 2;
+  }
+
+  .card__media {
+    min-width: 0;
   }
 
   .card__media-link {
     display: block;
     text-decoration: none;
     min-width: 0;
+  }
+
+  .card__credit {
+    margin: 0.5rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    color: var(--text-faint);
+  }
+
+  .card__credit a {
+    color: inherit;
+  }
+
+  .card__credit a:hover {
+    color: var(--accent);
   }
 
   .card__body {
@@ -188,7 +228,7 @@ const num = String(index + 1).padStart(2, '0');
       grid-template-columns: 1fr;
       gap: 1.5rem;
     }
-    .card:nth-child(even) .card__media-link {
+    .card:nth-child(even) .card__media {
       order: 0;
     }
   }

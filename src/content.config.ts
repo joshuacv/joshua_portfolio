@@ -19,8 +19,19 @@ const projects = defineCollection({
      * Nullable so an author can leave the key present but blank in frontmatter.
      */
     video: z.string().nullish().transform((v) => v ?? undefined),
-    /** Poster frame; also the fallback when no video exists. */
+    /** Poster frame for the full-width hero; also the fallback when no video exists. */
     poster: z.string().nullish().transform((v) => v ?? undefined),
+    /**
+     * Small image for the card in the home-page work list. Use when the only
+     * available image is too low-resolution for the full-width hero.
+     * Falls back to `poster` when unset.
+     */
+    thumbnail: z.string().nullish().transform((v) => v ?? undefined),
+    /** Attribution shown under the card and hero media. */
+    mediaCredit: z
+      .object({ text: z.string(), href: z.string().optional() })
+      .nullish()
+      .transform((v) => v ?? undefined),
     /** Headline numbers. Keep to 2–4 or they stop reading as important. */
     metrics: z
       .array(z.object({ value: z.string(), label: z.string() }))

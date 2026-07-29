@@ -170,14 +170,18 @@ const { Content } = await render(project);
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     gap: clamp(1.5rem, 5vw, 4rem);
     padding: 1.9rem 0;
-    border-block: var(--rule);
+    /* Top rule only — the first prose h2 below draws its own, and a bottom
+       rule here would sit consecutively with it. */
+    border-top: var(--rule);
     margin-bottom: clamp(2.5rem, 6vw, 4rem);
   }
 
   .glance__metrics {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1.5rem;
+    /* Two columns so an even count (2 or 4) stays balanced rather than
+       leaving one metric stranded on its own row. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 1.75rem;
     margin: 0;
   }
 

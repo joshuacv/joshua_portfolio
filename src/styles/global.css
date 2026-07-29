@@ -138,11 +138,15 @@ p {
   max-width: 760px;
 }
 
+/* Sections are separated by whitespace alone. The divider is drawn by the
+   .eyebrow rule below, which both separates and labels — one line per section.
+   Do not add a border here: it lands a few rem above the eyebrow rule and the
+   two read as a doubled line. */
 .section {
   padding-block: clamp(3.5rem, 9vw, 7rem);
-  border-top: var(--rule);
 }
 
+/* Retained so existing markup keeps working; the hero needs no divider. */
 .section--flush {
   border-top: 0;
 }

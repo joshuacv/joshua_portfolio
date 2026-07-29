@@ -335,6 +335,13 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
     border-bottom: var(--rule);
   }
 
+  /* A list sitting directly under an eyebrow would draw a second rule a few
+     rem below the eyebrow's own. Suppress it. (The Education list follows an
+     .about__h, which draws no rule, so it keeps its top border.) */
+  .eyebrow + .cv > .cv__item:first-child {
+    border-top: 0;
+  }
+
   .cv__when {
     padding-top: 0.3rem;
     white-space: nowrap;

@@ -210,6 +210,12 @@ function splitAuthors(authors: string): { text: string; me: boolean }[] {
     border-bottom: var(--rule);
   }
 
+  /* Avoid a second rule immediately under the eyebrow's own. Publication
+     groups have an .area__blurb between the two, so they are unaffected. */
+  .eyebrow + .pubs > .pub:first-child {
+    border-top: 0;
+  }
+
   .pub__year {
     padding-top: 0.3rem;
     color: var(--accent);

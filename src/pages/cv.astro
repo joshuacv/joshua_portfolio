@@ -238,6 +238,16 @@ const hasPdf = false; // flip to true once a redacted PDF exists at public/cv.pd
     border-bottom: var(--rule);
   }
 
+  /* Avoid a second rule immediately under the eyebrow's own. */
+  .eyebrow + .rows > .row:first-child {
+    border-top: 0;
+  }
+
+  .eyebrow + .grid {
+    border-top: 0;
+    padding-top: 0;
+  }
+
   .row__when {
     padding-top: 0.3rem;
     white-space: nowrap;

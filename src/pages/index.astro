@@ -46,16 +46,6 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
     </div>
   </section>
 
-  <!-- ── Work ──────────────────────────────────────────────────────────── -->
-  <section class="section" id="work">
-    <div class="wrap">
-      <p class="eyebrow">Selected work</p>
-      <div class="work">
-        {projects.map((p, i) => <ProjectCard project={p} index={i} />)}
-      </div>
-    </div>
-  </section>
-
   <!-- ── About ─────────────────────────────────────────────────────────── -->
   <section class="section" id="about">
     <div class="wrap about">
@@ -72,7 +62,8 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
           embedded C on robots dropped into the Venice lagoon. Since then I have
           spent three years writing production C++ for industrial mobile robots,
           and now lead EU-funded work on autonomous mobility and last-mile
-          delivery at JKU.
+          delivery at JKU. Some selected work is shown below. Scroll down for the organizations
+          that I have previously worked for.
         </p>
         <p class="about__body">
           What connects those is a preference for systems that get built and
@@ -98,6 +89,16 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
             ))
           }
         </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Work ──────────────────────────────────────────────────────────── -->
+  <section class="section" id="work">
+    <div class="wrap">
+      <p class="eyebrow">Selected work</p>
+      <div class="work">
+        {projects.map((p, i) => <ProjectCard project={p} index={i} />)}
       </div>
     </div>
   </section>
@@ -254,12 +255,6 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
     color: var(--text-faint);
   }
 
-  /* ── Work ─────────────────────────────────────────────────────────────── */
-  .work {
-    display: grid;
-    gap: clamp(3.5rem, 8vw, 6.5rem);
-  }
-
   /* ── About ────────────────────────────────────────────────────────────── */
   .about {
     display: grid;
@@ -313,6 +308,12 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
     font-size: 0.76rem;
     line-height: 1.7;
     color: var(--text-dim);
+  }
+
+  /* ── Work ─────────────────────────────────────────────────────────────── */
+  .work {
+    display: grid;
+    gap: clamp(3.5rem, 8vw, 6.5rem);
   }
 
   /* ── CV list ──────────────────────────────────────────────────────────── */

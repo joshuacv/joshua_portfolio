@@ -1,0 +1,88 @@
+---
+import { url } from '../lib/url';
+
+interface Props {
+  /** Path under /public, e.g. "media/foo.webp". No leading slash. */
+  src: string;
+  alt: string;
+  /** Descriptive caption shown beneath the image. */
+  caption?: string;
+  /** Rights holder / source, e.g. "SSI SCHÄFER". Rendered as a credit line. */
+  credit?: string;
+  /** Link for the credit — the source page the image came from. */
+  creditHref?: string;
+  /** Cap the rendered width so small source images are not upscaled. */
+  maxWidth?: string;
+}
+
+const {
+  src,
+  alt,
+  caption,
+  credit,
+  creditHref,
+  maxWidth = '100%',
+} = Astro.props;
+---
+
+<figure class="fig" style={`--max: ${maxWidth}`}>
+  <img src={url(src)} alt={alt} loading="lazy" decoding="async" />
+  {
+    (caption || credit) && (
+      <figcaption>
+        {caption}
+        {credit && (
+          <span class="fig__credit">
+            {caption ? ' ' : ''}Image:{' '}
+            {creditHref ? (
+              <a href={creditHref} rel="noopener nofollow">
+                {credit}
+              </a>
+            ) : (
+              credit
+            )}
+          </span>
+        )}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .fig {
+    margin: 2rem 0;
+    max-width: var(--max);
+  }
+
+  .fig img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--bg-sunken);
+  }
+
+  figcaption {
+    margin-top: 0.6rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--text-dim);
+  }
+
+  .fig__credit {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+    display: block;
+    margin-top: 0.25rem;
+  }
+
+  .fig__credit a {
+    color: inherit;
+  }
+
+  .fig__credit a:hover {
+    color: var(--accent);
+  }
+</style>

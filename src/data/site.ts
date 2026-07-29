@@ -24,8 +24,9 @@ export const site = {
     'to deployed production systems.',
 };
 
+// Order mirrors the page flow: About → Work → Research.
 export const nav = [
+  { label: 'About', href: '/#about' },
   { label: 'Work', href: '/#work' },
   { label: 'Research', href: '/research' },
-  { label: 'About', href: '/#about' },
 ];

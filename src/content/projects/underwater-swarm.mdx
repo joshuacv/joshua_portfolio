@@ -24,13 +24,18 @@ metrics:
     label: Real-world field site
 
 video: # e.g. media/underwater-swarm.mp4
-poster: # e.g. media/underwater-swarm.jpg
+# The subCULTron fleet on a Venice dock. 4:3 source — the 21/9 hero crops to the
+# aPads and the aFish row; the full frame is shown as a figure in the body.
+poster: media/subcultron-fleet-venice.webp
 links:
   - label: "Collective event detection… (ALIFE 2019)"
     href: "#"
   - label: "CIMAX (Adaptive Behavior, 2020)"
     href: "#"
 ---
+
+import Figure from '../../components/Figure.astro';
+import MediaLoop from '../../components/MediaLoop.astro';
 
 ## The problem
 
@@ -75,6 +80,34 @@ currents, and communication characteristics that no lab tank reproduces.
 Field robotics is a different discipline from lab robotics. The constraints stop
 being algorithmic and start being logistical: what you can debug from a boat,
 what you can recover if it fails, how many runs you get per day.
+
+<Figure
+  src="media/subcultron-fleet-venice.webp"
+  alt="The subCULTron fleet laid out on a dock in the Venice lagoon: a row of aFish, two aPad surface vessels, and an aMussel"
+  caption="The fleet on a Venice dock before deployment — the aFish row in front, two solar-powered aPads behind acting as the surface tier, and a single aMussel on the case. Everything the swarm knows is exchanged locally between these units."
+/>
+
+Below the surface, the conditions the text above describes stop being abstract.
+Visibility collapses within a couple of metres, the units drift on the current,
+and the water column looks the same in every direction — which is precisely why
+none of the coordination could depend on a robot knowing where it was.
+
+<div style="display: grid; gap: 1.5rem;">
+  <MediaLoop
+    video="media/amussel-descent.mp4"
+    poster="media/amussel-descent-poster.webp"
+    alt="aMussel units descending through the water column beside submerged dock structure in the Venice lagoon"
+    ratio="16 / 9"
+    caption="Units descending through the water column beside a submerged dock structure."
+  />
+  <MediaLoop
+    video="media/amussel-dive.mp4"
+    poster="media/amussel-dive-poster.webp"
+    alt="A single aMussel suspended in turbid green water during a dive in the Venice lagoon"
+    ratio="16 / 9"
+    caption="A single aMussel holding depth in open water. This is the visibility the swarm operated in — the reason the sensing is acoustic and the communication is local."
+  />
+</div>
 
 ## Why it matters
 

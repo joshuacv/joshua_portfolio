@@ -36,6 +36,8 @@ links: []
 # TODO — link the F1TENTH competition results page and the JKU team page if one exists.
 ---
 
+import MediaLoop from '../../components/MediaLoop.astro';
+
 ## The platform
 
 F1TENTH is a 1/10-scale autonomous racing platform: a real vehicle, with real
@@ -121,6 +123,18 @@ no opportunity to retune between runs.
 
 The team placed **10th at ICRA 2026 in Vienna** — its first F1TENTH competition,
 with a stack built from scratch.
+
+{/* Portrait footage — capped so a 9:16 clip does not tower over the prose column. */}
+
+<div style="max-width: 340px; margin-inline: auto;">
+  <MediaLoop
+    video="media/ICRA_2026.mp4"
+    poster="media/icra-2026-poster.jpg"
+    alt="The JKU F1TENTH car running the ICRA 2026 track in Vienna"
+    ratio="9 / 16"
+    caption="The car on the ICRA 2026 track in Vienna — lidar-only, MPC closing the loop at 50 Hz."
+  />
+</div>
 
 {/* TODO — add the field size ("10th of N teams") if you have it. A placement is
      much more meaningful with a denominator. */}

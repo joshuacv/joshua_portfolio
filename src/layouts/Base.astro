@@ -41,6 +41,18 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         }
       } catch {}
     </script>
+
+    {/* GoatCounter: cookieless page-view counting, so no consent banner is
+        needed. Production only — otherwise local dev reloads would dominate
+        the numbers on a low-traffic site. */}
+    {import.meta.env.PROD && (
+      <script
+        is:inline
+        data-goatcounter="https://joshuacv.goatcounter.com/count"
+        async
+        src="//gc.zgo.at/count.js"
+      />
+    )}
   </head>
 
   <body>

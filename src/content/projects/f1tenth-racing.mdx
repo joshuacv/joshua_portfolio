@@ -4,7 +4,7 @@ tagline: Lidar-only autonomy on a 1/10-scale race car — from Nav2 baseline to 
 org: Johannes Kepler University, Linz
 role: Team Lead & Lead Developer
 period: "2026"
-# TODO — set the real span (e.g. "2025 — Present") once you fix the start date.
+
 order: 2
 summary: >-
   Led the design and build of JKU's F1TENTH autonomous racing platform end to
@@ -39,7 +39,6 @@ poster: media/f1tenth-track-icra-2026.webp
 # the figure in the body.
 thumbnail: media/f1tenth-car-card.webp
 links: []
-# TODO — link the F1TENTH competition results page and the JKU team page if one exists.
 ---
 
 import Figure from '../../components/Figure.astro';
@@ -69,12 +68,14 @@ perception and localization stack is geometric — every decision the car makes 
 derived from a planar scan. It removes an enormous class of problems (lighting,
 exposure, domain shift) and replaces them with a sharper one: all the
 information you will ever have is a ring of range measurements, so the
-algorithms working on it have to be good.
+algorithms working on it have to be good. We used particle filter to localize, numerical 
+optimization to calculate the optimal race line, a cubic spline based trajectory generator to 
+calculate collision avoidance paths and model predictive control for acuation. 
 
 ## My role
 
 I led the project as **team lead and lead developer**, responsible for the
-hardware and the software, with minor contributions from others. In practice
+hardware and the software, with minor contributions (hardware building) from teammates. In practice
 that meant owning the whole vertical: vehicle build and wiring, sensor
 integration, the ROS 2 stack, the controller, and the trackside decisions during
 race weekend.
@@ -85,8 +86,8 @@ The first working system used **Nav2**. That was a deliberate choice — it gets
 vehicle driving autonomously quickly, and it provides a known-good reference to
 measure against. For bring-up and early testing it was the right tool.
 
-It was not the right tool for racing. Nav2 is engineered to reach a goal
-*safely* in an environment shared with people and obstacles: conservative
+It was not the right tool for racing because of its dependence on very good odometry. 
+Nav2 is engineered to reach a goal *safely* in an environment shared with people and obstacles: conservative
 velocity profiles, generous clearances, reactive replanning. Racing inverts
 almost every one of those priorities. You want minimum-time trajectories, you
 want to carry speed through corners, and you want to operate close to the limits
@@ -108,30 +109,12 @@ feels safe. It worked because the interfaces around the controller were drawn
 well enough that swapping what sat inside them did not require renegotiating the
 rest of the stack.
 
-{/* TODO — This is the strongest technical section on the site. Worth expanding:
-     - the vehicle model used (kinematic bicycle? dynamic with tyre model?)
-     - state and control dimensions, horizon length, discretisation
-     - the solver, and how you got it inside the 20 ms budget
-     - cost terms and how you tuned the tradeoff between lap time and stability
-     - how localization works — Nav2's AMCL carried over, or something custom?
-     - whether the raceline is precomputed offline or optimized online
-     A block diagram of the stack would land very well here. */}
-
 ## Racing as a constraint
 
 Competition is a useful forcing function. A stack that works in the lab has
 soft deadlines; a stack that races has hard ones, and it has to survive
 conditions you did not choose — an unfamiliar track, limited practice time, and
 no opportunity to retune between runs.
-
-{/* TODO — ADD A "## What was hard" SECTION HERE.
-     Only you can write this, and it is what convinces a reader you actually
-     ran the thing rather than simulated it. Candidates:
-     - something that worked in simulation and failed on the real track
-     - a localization failure at speed, and how you diagnosed it trackside
-     - the MPC missing its deadline under load, and what you cut
-     - a hardware failure during race weekend
-     Heading omitted until written so the live page shows no empty section. */}
 
 ## Result
 
@@ -150,9 +133,6 @@ with a stack built from scratch.
   />
 </div>
 
-{/* TODO — add the field size ("10th of N teams") if you have it. A placement is
-     much more meaningful with a denominator. */}
-
 ## Where this goes next
 
 The platform is the reason this project matters beyond the result. A Jetson
@@ -163,7 +143,3 @@ fast enough to sit inside a real control loop?**
 The obvious next step is to bring learned components into this stack — and to do
 it under the same constraint that governs everything else here, which is that
 the answer has to arrive before the next control cycle.
-
-{/* TODO — Once the TensorRT / model-optimization work exists, link it here.
-     This paragraph is the bridge from the racing platform to the edge-ML
-     direction, and a concrete link is what turns it from intent into evidence. */}

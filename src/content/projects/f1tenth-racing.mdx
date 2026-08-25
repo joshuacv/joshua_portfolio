@@ -31,11 +31,18 @@ metrics:
   - value: Lidar-only
     label: No camera in the sensing stack
 video: # e.g. media/f1tenth.mp4
-poster: # e.g. media/f1tenth.jpg
+# Hero pre-cropped to 21/9 so the frame is not re-cropped by object-fit.
+poster: media/f1tenth-track-icra-2026.webp
+# Card image: the car reads better than the track shot at card size, but the
+# source is near-square — pre-cropped to 16/10 so the card frame does not strip
+# 42% of the height and take the sensor stack with it. The uncropped frame is
+# the figure in the body.
+thumbnail: media/f1tenth-car-card.webp
 links: []
 # TODO — link the F1TENTH competition results page and the JKU team page if one exists.
 ---
 
+import Figure from '../../components/Figure.astro';
 import MediaLoop from '../../components/MediaLoop.astro';
 
 ## The platform
@@ -49,6 +56,13 @@ leaves the track.
 
 Ours runs **ROS 2 on a Jetson AGX Xavier**, sensing the world through a **single
 2D lidar**. No camera.
+
+<Figure
+  src="media/f1tenth-car.webp"
+  alt="The F1TENTH car on a workshop floor, showing the chassis, wiring, and the compute and sensing stack mounted above it"
+  caption="The platform as built — a 1/10-scale chassis carrying the whole compute and sensing stack on board."
+  maxWidth="500px"
+/>
 
 That last constraint shapes everything. With no visual input, the entire
 perception and localization stack is geometric — every decision the car makes is

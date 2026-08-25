@@ -19,7 +19,7 @@ export const areas: { id: Area; label: string; blurb: string }[] = [
     id: 'mobility',
     label: 'Autonomous mobility & intelligent transport',
     blurb:
-      'Current work at JKU — pedestrian safety around autonomous vehicles, V2P warning strategies, and machine learning for public transport.',
+      'Current work at JKU — Autonomous driving research, Smart public transport using AI, pedestrian safety around autonomous vehicles, V2P warning strategies, Reinforcement learning for heterogenous swarms, and machine learning for public transport.',
   },
   {
     id: 'swarm',

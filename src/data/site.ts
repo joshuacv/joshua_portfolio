@@ -2,7 +2,7 @@ export const site = {
   name: 'Joshua Cherian Varughese',
   short: 'Joshua C. Varughese',
   title: 'Joshua Cherian Varughese — Robotics Engineer',
-  role: 'Robotics Engineer · Senior Researcher',
+  role: 'Senior Robotics Engineer · Senior Researcher',
   location: 'Linz, Austria',
   email: 'joshuacherian.v@gmail.com',
   // Phone deliberately omitted — it isn't rendered anywhere, and there's no

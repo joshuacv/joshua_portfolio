@@ -143,7 +143,9 @@ p {
    Do not add a border here: it lands a few rem above the eyebrow rule and the
    two read as a doubled line. */
 .section {
-  padding-block: clamp(3.5rem, 9vw, 7rem);
+  /* Adjacent sections stack this padding twice (one's bottom against the
+     next's top), so the gap a reader sees is double whatever is set here. */
+  padding-block: clamp(2rem, 4.5vw, 3.5rem);
 }
 
 /* Retained so existing markup keeps working; the hero needs no divider. */
@@ -154,14 +156,16 @@ p {
 /* Eyebrow / section label — the monospace tag that runs through the site */
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
+  font-size: 1.5rem;
+  /* Tracking eases off as the size goes up — 0.16em was tuned for 0.72rem and
+     reads far too loose at display size. */
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-faint);
-  margin: 0 0 1.6rem;
+  color: var(--text-dim);
+  margin: 0 0 2rem;
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 1.1rem;
 }
 
 .eyebrow::after {

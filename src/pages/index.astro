@@ -97,8 +97,39 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
   <section class="section" id="work">
     <div class="wrap">
       <p class="eyebrow">Selected work</p>
-      <div class="work">
-        {projects.map((p, i) => <ProjectCard project={p} index={i} />)}
+      <div class="rail" data-rail>
+        <div
+          class="work"
+          role="region"
+          aria-label="Selected work, horizontally scrollable"
+          tabindex="0"
+          data-rail-track
+        >
+          {projects.map((p, i) => <ProjectCard project={p} index={i} />)}
+        </div>
+
+        <button
+          class="rail__nav rail__nav--prev"
+          type="button"
+          data-rail-prev
+          aria-label="Scroll to previous projects"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.75"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <button
+          class="rail__nav rail__nav--next"
+          type="button"
+          data-rail-next
+          aria-label="Scroll to next projects"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.75"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
       </div>
     </div>
   </section>
@@ -169,7 +200,7 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
 <style>
   /* ── Hero ─────────────────────────────────────────────────────────────── */
   .hero {
-    padding-top: clamp(3.5rem, 11vw, 8rem);
+    padding-top: clamp(2.5rem, 7vw, 5rem);
   }
 
   .hero__eyebrow {
@@ -272,18 +303,20 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
     color: var(--text);
   }
 
+  /* Matches .eyebrow so Education and Capabilities read at the same level as
+     About / Selected work / Experience rather than as small sub-labels. */
   .about__h {
-    font-size: 0.72rem;
+    font-size: 1.5rem;
     font-family: var(--font-mono);
-    letter-spacing: 0.16em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--text-faint);
+    color: var(--text-dim);
     font-weight: 400;
-    margin-bottom: 1.1rem;
+    margin-bottom: 1.4rem;
   }
 
   .about__h--spaced {
-    margin-top: 3.5rem;
+    margin-top: 2.5rem;
   }
 
   .skills {
@@ -311,10 +344,142 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
   }
 
   /* ── Work ─────────────────────────────────────────────────────────────── */
+  /* Horizontal rail. The work section used to stack five full-width rows,
+     which pushed Experience far below the fold; scrolling sideways keeps the
+     whole section to roughly one card's height. */
   .work {
-    display: grid;
-    gap: clamp(3.5rem, 8vw, 6.5rem);
+    display: flex;
+    gap: clamp(1.25rem, 3vw, 2rem);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    /* proximity, not mandatory: mandatory re-snaps on every wheel tick and
+       makes the translated vertical scrolling feel like it is fighting back. */
+    scroll-snap-type: x proximity;
+    /* Room for the scrollbar so it never overlaps the tag row. */
+    padding-bottom: 1.1rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
   }
+
+  .work > :global(.card) {
+    flex: 0 0 var(--card-w);
+    scroll-snap-align: start;
+  }
+
+  /* ── Rail affordances ────────────────────────────────────────────────── */
+  .rail {
+    /* Single source of truth: the nav buttons centre on the card's media box,
+       whose height is card width x 10/16. */
+    --card-w: clamp(278px, 74vw, 372px);
+    position: relative;
+  }
+
+  /* Edge fades signal that content continues past the frame. They sit above
+     the track and are switched on only in the direction that can still move. */
+  .rail::before,
+  .rail::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(1.75rem, 5vw, 3.5rem);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 1;
+  }
+
+  .rail::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg), transparent);
+  }
+
+  .rail::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg), transparent);
+  }
+
+  .rail[data-can-prev]::before,
+  .rail[data-can-next]::after {
+    opacity: 1;
+  }
+
+  .rail__nav {
+    position: absolute;
+    top: calc(var(--card-w) * 0.3125);
+    transform: translateY(-50%);
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: var(--rule);
+    border-radius: 50%;
+    background: var(--bg-raised);
+    color: var(--text);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease, border-color 0.2s ease,
+      color 0.2s ease;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 6px 18px rgb(0 0 0 / 10%);
+  }
+
+  .rail__nav svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .rail__nav--prev { left: -0.5rem; }
+  .rail__nav--next { right: -0.5rem; }
+
+  .rail[data-can-prev] .rail__nav--prev,
+  .rail[data-can-next] .rail__nav--next {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .rail__nav:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .rail__nav:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Coarse pointers swipe; buttons would only cover content. */
+  @media (hover: none) {
+    .rail__nav { display: none; }
+  }
+
+  .work:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 6px;
+    border-radius: 2px;
+  }
+
+  .work::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .work::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .work::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 99px;
+  }
+
+  .work::-webkit-scrollbar-thumb:hover {
+    background: var(--text-faint);
+  }
+
 
   /* ── CV list ──────────────────────────────────────────────────────────── */
   .cv {
@@ -414,3 +579,94 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
     }
   }
 </style>
+
+<script>
+  const rail = document.querySelector<HTMLElement>('[data-rail]');
+  const track = rail?.querySelector<HTMLElement>('[data-rail-track]');
+  const prev = rail?.querySelector<HTMLButtonElement>('[data-rail-prev]');
+  const next = rail?.querySelector<HTMLButtonElement>('[data-rail-next]');
+
+  if (rail && track && prev && next) {
+    // Sub-pixel scroll positions never land exactly on 0 or max.
+    const EDGE = 2;
+    const maxScroll = () => track.scrollWidth - track.clientWidth;
+
+    /* Show each affordance only in the direction that can still move. */
+    const sync = () => {
+      const max = maxScroll();
+      const scrollable = max > EDGE;
+      rail.toggleAttribute('data-can-prev', scrollable && track.scrollLeft > EDGE);
+      rail.toggleAttribute('data-can-next', scrollable && track.scrollLeft < max - EDGE);
+    };
+
+    /* One card plus one gap, read from the DOM so the CSS clamp stays the
+       single source of truth for card width. */
+    const step = () => {
+      const card = track.querySelector<HTMLElement>('.card');
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return card ? card.offsetWidth + gap : track.clientWidth * 0.8;
+    };
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const nudge = (dir: number) =>
+      track.scrollBy({
+        left: dir * step(),
+        behavior: reduced.matches ? 'auto' : 'smooth',
+      });
+
+    prev.addEventListener('click', () => nudge(-1));
+    next.addEventListener('click', () => nudge(1));
+
+    /* deltaY is not always pixels. Firefox on Linux commonly reports
+       DOM_DELTA_LINE, where deltaY is ~3 (lines) rather than ~100 (pixels);
+       using it raw moves the rail a few px per tick while preventDefault
+       still blocks the page, which reads as scrolling being broken. */
+    const pixelDelta = (e: WheelEvent) => {
+      // 40px is the conventional browser line step for wheel events; a 16px
+      // line-height would make Firefox/Linux scroll at a third of the speed.
+      if (e.deltaMode === 1) return e.deltaY * 40; // lines
+      if (e.deltaMode === 2) return e.deltaY * track.clientHeight; // pages
+      return e.deltaY;
+    };
+
+    /* Snap fights an incremental scroll: each tick gets pulled back toward the
+       nearest snap point. Suspend it while the wheel is active, then restore
+       so the rail still settles on a card. */
+    let snapTimer: number | undefined;
+    const suspendSnap = () => {
+      track.style.scrollSnapType = 'none';
+      window.clearTimeout(snapTimer);
+      snapTimer = window.setTimeout(() => {
+        track.style.scrollSnapType = '';
+      }, 150);
+    };
+
+    /* A vertical wheel over the rail scrolls it sideways. At either end the
+       gesture is handed straight back to the page, so the rail never traps
+       the reader mid-scroll. */
+    rail.addEventListener(
+      'wheel',
+      (e) => {
+        // Trackpad horizontal gestures already do the right thing.
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+
+        const max = maxScroll();
+        if (max <= EDGE) return;
+
+        const delta = pixelDelta(e);
+        const atStart = track.scrollLeft <= EDGE;
+        const atEnd = track.scrollLeft >= max - EDGE;
+        if ((delta < 0 && atStart) || (delta > 0 && atEnd)) return;
+
+        e.preventDefault();
+        suspendSnap();
+        track.scrollLeft += delta;
+      },
+      { passive: false }
+    );
+
+    track.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  }
+</script>

@@ -27,7 +27,6 @@ const d = project.data;
 // Prefer a dedicated card image; fall back to the hero poster.
 const cardImage = d.thumbnail ?? d.poster;
 const href = url(`/work/${project.id}`);
-const num = String(index + 1).padStart(2, '0');
 ---
 
 <article class="card">
@@ -38,32 +37,29 @@ const num = String(index + 1).padStart(2, '0');
         poster={cardImage}
         alt={`${d.title} — ${d.tagline}`}
         ratio="16 / 10"
-        slotLabel={`${num} · footage`}
+        slotLabel="footage"
       />
     </a>
-    {
-      d.mediaCredit && (
-        <p class="card__credit">
-          Image:{' '}
-          {d.mediaCredit.href ? (
-            <a href={d.mediaCredit.href} rel="noopener nofollow">
-              {d.mediaCredit.text}
-            </a>
-          ) : (
-            d.mediaCredit.text
-          )}
-        </p>
-      )
-    }
+    <p class="card__credit">
+      {
+        d.mediaCredit && (
+          <>
+            Image:{' '}
+            {d.mediaCredit.href ? (
+              <a href={d.mediaCredit.href} rel="noopener nofollow">
+                {d.mediaCredit.text}
+              </a>
+            ) : (
+              d.mediaCredit.text
+            )}
+          </>
+        )
+      }
+    </p>
   </div>
 
   <div class="card__body">
-    <p class="card__meta mono">
-      <span class="card__num">{num}</span>
-      <span>{d.org}</span>
-      <span class="card__dot" aria-hidden="true">·</span>
-      <span>{d.period}</span>
-    </p>
+    <p class="card__meta mono">{d.org} ({d.period})</p>
 
     <h3 class="card__title">
       <a href={href}>{d.title}</a>
@@ -72,19 +68,6 @@ const num = String(index + 1).padStart(2, '0');
     <p class="card__tagline">{d.tagline}</p>
     <p class="card__summary">{d.summary}</p>
 
-    {
-      d.metrics.length > 0 && (
-        <dl class="card__metrics">
-          {d.metrics.map((m) => (
-            <div class="card__metric">
-              <dt>{m.value}</dt>
-              <dd>{m.label}</dd>
-            </div>
-          ))}
-        </dl>
-      )
-    }
-
     <ul class="card__tags">
       {d.tags.map((t) => <li>{t}</li>)}
     </ul>
@@ -92,16 +75,13 @@ const num = String(index + 1).padStart(2, '0');
 </article>
 
 <style>
+  /* Single column: the card is a rail item now, not a full-width row, so the
+     media sits above the body rather than beside it. */
   .card {
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    gap: clamp(1.5rem, 4vw, 3.25rem);
-    align-items: center;
-  }
-
-  /* Alternate sides so the page doesn't read as a uniform list. */
-  .card:nth-child(even) .card__media {
-    order: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    height: 100%;
   }
 
   .card__media {
@@ -114,10 +94,15 @@ const num = String(index + 1).padStart(2, '0');
     min-width: 0;
   }
 
+  /* Rendered on every card, empty or not: the credit strip reserves one line
+     so that a card carrying a credit (Fastbots) does not push its body — and
+     every line under it — lower than the rest of the rail. */
   .card__credit {
     margin: 0.5rem 0 0;
     font-family: var(--font-mono);
     font-size: 0.68rem;
+    line-height: 1.4;
+    min-height: 1.4em;
     letter-spacing: 0.05em;
     color: var(--text-faint);
   }
@@ -132,26 +117,29 @@ const num = String(index + 1).padStart(2, '0');
 
   .card__body {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  /* Push the tag list to the bottom so cards of differing text length still
+     line their tags up across the rail. */
+  .card__tags {
+    margin-top: auto;
   }
 
   .card__meta {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-    margin: 0 0 0.85rem;
-  }
-
-  .card__num {
-    color: var(--accent);
-    font-weight: 600;
-  }
-
-  .card__dot {
-    opacity: 0.5;
+    margin: 0 0 0.7rem;
+    /* One line: at rail width the longest org plus period just fits at this
+       size; ellipsis is a safety net rather than an expected state. */
+    font-size: 0.72rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .card__title {
-    font-size: clamp(1.4rem, 3vw, 1.95rem);
+    font-size: 1.32rem;
     margin-bottom: 0.4rem;
   }
 
@@ -171,37 +159,19 @@ const num = String(index + 1).padStart(2, '0');
   .card__tagline {
     color: var(--accent);
     font-size: 0.95rem;
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.75rem;
   }
 
   .card__summary {
     color: var(--text-dim);
-    font-size: 0.97rem;
+    font-size: 0.95rem;
     margin-bottom: 1.35rem;
-  }
-
-  .card__metrics {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.75rem;
-    margin: 0 0 1.35rem;
-    padding: 0.95rem 0;
-    border-block: var(--rule);
-  }
-
-  .card__metric dt {
-    font-size: 1.32rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-
-  .card__metric dd {
-    margin: 0.15rem 0 0;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.11em;
-    text-transform: uppercase;
-    color: var(--text-faint);
+    /* Four lines keeps the tallest card from setting an excessive rail height.
+       The full summary is on the project page. */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .card__tags {
@@ -215,7 +185,7 @@ const num = String(index + 1).padStart(2, '0');
 
   .card__tags li {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     letter-spacing: 0.05em;
     color: var(--text-dim);
     border: 1px solid var(--line);
@@ -223,13 +193,4 @@ const num = String(index + 1).padStart(2, '0');
     padding: 0.22rem 0.5rem;
   }
 
-  @media (max-width: 880px) {
-    .card {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-    .card:nth-child(even) .card__media {
-      order: 0;
-    }
-  }
 </style>

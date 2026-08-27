@@ -4,11 +4,17 @@ export type Role = {
   location: string;
   period: string;
   points: string[];
+  /**
+   * Path under /public to the organisation's logo, e.g. "media/logo-jku.png".
+   * Optional — a role without one simply renders no logo rather than a gap.
+   */
+  logo?: string;
 };
 
 export const experience: Role[] = [
   {
     org: 'Johannes Kepler University',
+    logo: 'media/logo-jku.png',
     title: 'Postdoctoral Researcher, Intelligent Transport Systems',
     location: 'Linz, Austria',
     period: '04/2024 — Present',
@@ -21,6 +27,7 @@ export const experience: Role[] = [
   },
   {
     org: 'DS Automotion GmbH',
+    logo: 'media/logo-ds-automotion.jpeg',
     title: 'Robotics Core Software Developer',
     location: 'Linz, Austria',
     period: '09/2021 — 03/2024',
@@ -34,6 +41,7 @@ export const experience: Role[] = [
   },
   {
     org: 'Artificial Life Lab, University of Graz',
+    logo: 'media/logo-uni-graz.png',
     title: 'Researcher',
     location: 'Graz, Austria',
     period: '11/2015 — 07/2021',
@@ -47,6 +55,7 @@ export const experience: Role[] = [
   },
   {
     org: 'Micron Semiconductor Asia Ltd.',
+    logo: 'media/logo-micron.png',
     title: 'Process Engineer',
     location: 'Singapore',
     period: '06/2012 — 10/2015',
@@ -58,6 +67,7 @@ export const experience: Role[] = [
   },
   {
     org: 'Maruti Suzuki India Ltd.',
+    logo: 'media/logo-maruti.png',
     title: 'Assistant Manager, Plant Maintenance',
     location: 'Gurgaon, India',
     period: '06/2010 — 07/2012',

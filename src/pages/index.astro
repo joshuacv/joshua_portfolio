@@ -142,7 +142,18 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
         {
           experience.map((role) => (
             <li class="cv__item">
-              <div class="cv__when mono">{role.period}</div>
+              <div class="cv__when mono">
+                {role.logo && (
+                  <img
+                    class="cv__logo"
+                    src={url(role.logo)}
+                    alt={`${role.org} logo`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                <span>{role.period}</span>
+              </div>
               <div class="cv__what">
                 <h3 class="cv__org">
                   {role.org} <span class="cv__loc">{role.location}</span>
@@ -510,6 +521,29 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
   .cv__when {
     padding-top: 0.3rem;
     white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  /* Logos arrive in wildly different aspect ratios, so normalise on height and
+     let width follow. The light plate is not decoration: most supplied logos
+     are dark-on-transparent and would disappear against the dark theme. */
+  .cv__logo {
+    /* Fixed box rather than a fixed height: the supplied logos run from 1:1
+       (DS Automotion) to 3.5:1 (Maruti), so normalising on height alone would
+       make the wide wordmarks four times the width of the square marks.
+       contain fits each inside the same footprint, keeping the column even. */
+    width: 104px;
+    height: 46px;
+    object-fit: contain;
+    /* Every logo ships on an opaque white background, so the plate merges with
+       the artwork and also keeps them legible against the dark theme. */
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 6px 8px;
   }
 
   .cv__org {
@@ -576,6 +610,12 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
     .cv__item {
       grid-template-columns: 1fr;
       gap: 0.6rem;
+    }
+    /* Single column: logo and period read better side by side than stacked. */
+    .cv__when {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.8rem;
     }
   }
 </style>

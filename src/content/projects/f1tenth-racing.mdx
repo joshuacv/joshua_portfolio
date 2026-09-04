@@ -1,6 +1,6 @@
 ---
 title: F1TENTH Autonomous Racing
-tagline: Lidar-only autonomy on a 1/10-scale race car — from Nav2 baseline to a custom MPC
+tagline: Lidar-only autonomy on a 1/10-scale race car - from Nav2 baseline to a custom MPC
 org: Johannes Kepler University, Linz
 role: Team Lead & Lead Developer
 period: "2026"
@@ -8,7 +8,7 @@ period: "2026"
 order: 2
 summary: >-
   Led the design and build of JKU's F1TENTH autonomous racing platform end to
-  end — hardware and software. A lidar-only ROS 2 stack running on a Jetson AGX
+  end - hardware and software. A lidar-only ROS 2 stack running on a Jetson AGX
   Xavier, closing a 50 Hz control loop with a purpose-built MPC that replaced an
   initial Nav2 baseline and went from integration to race-ready in two weeks.
   Placed 10th at ICRA 2026 in Vienna, the team's first competition.
@@ -23,7 +23,7 @@ tags:
   - Autonomous racing
 metrics:
   - value: 10th
-    label: ICRA 2026 Vienna — first competition
+    label: ICRA 2026 Vienna - first competition
   - value: 2 weeks
     label: MPC integrated to race-ready
   - value: 50 Hz
@@ -34,7 +34,7 @@ video: # e.g. media/f1tenth.mp4
 # Hero pre-cropped to 21/9 so the frame is not re-cropped by object-fit.
 poster: media/f1tenth-track-icra-2026.webp
 # Card image: the car reads better than the track shot at card size, but the
-# source is near-square — pre-cropped to 16/10 so the card frame does not strip
+# source is near-square - pre-cropped to 16/10 so the card frame does not strip
 # 42% of the height and take the sensor stack with it. The uncropped frame is
 # the figure in the body.
 thumbnail: media/f1tenth-car-card.webp
@@ -59,12 +59,12 @@ Ours runs **ROS 2 on a Jetson AGX Xavier**, sensing the world through a **single
 <Figure
   src="media/f1tenth-car.webp"
   alt="The F1TENTH car on a workshop floor, showing the chassis, wiring, and the compute and sensing stack mounted above it"
-  caption="The platform as built — a 1/10-scale chassis carrying the whole compute and sensing stack on board."
+  caption="The platform as built - a 1/10-scale chassis carrying the whole compute and sensing stack on board."
   maxWidth="500px"
 />
 
 That last constraint shapes everything. With no visual input, the entire
-perception and localization stack is geometric — every decision the car makes is
+perception and localization stack is geometric - every decision the car makes is
 derived from a planar scan. It removes an enormous class of problems (lighting,
 exposure, domain shift) and replaces them with a sharper one: all the
 information you will ever have is a ring of range measurements, so the
@@ -82,7 +82,7 @@ race weekend.
 
 ## From Nav2 to a custom MPC
 
-The first working system used **Nav2**. That was a deliberate choice — it gets a
+The first working system used **Nav2**. That was a deliberate choice - it gets a
 vehicle driving autonomously quickly, and it provides a known-good reference to
 measure against. For bring-up and early testing it was the right tool.
 
@@ -113,15 +113,15 @@ rest of the stack.
 
 Competition is a useful forcing function. A stack that works in the lab has
 soft deadlines; a stack that races has hard ones, and it has to survive
-conditions you did not choose — an unfamiliar track, limited practice time, and
+conditions you did not choose - an unfamiliar track, limited practice time, and
 no opportunity to retune between runs.
 
 ## Result
 
-The team placed **10th at ICRA 2026 in Vienna** — its first F1TENTH competition,
+The team placed **10th at ICRA 2026 in Vienna** - its first F1TENTH competition,
 with a stack built from scratch.
 
-{/* Portrait footage — capped so a 9:16 clip does not tower over the prose column. */}
+{/* Portrait footage - capped so a 9:16 clip does not tower over the prose column. */}
 
 <div style="max-width: 340px; margin-inline: auto;">
   <MediaLoop
@@ -129,7 +129,7 @@ with a stack built from scratch.
     poster="media/icra-2026-poster.jpg"
     alt="The JKU F1TENTH car running the ICRA 2026 track in Vienna"
     ratio="9 / 16"
-    caption="The car on the ICRA 2026 track in Vienna — lidar-only, MPC closing the loop at 50 Hz."
+    caption="The car on the ICRA 2026 track in Vienna - lidar-only, MPC closing the loop at 50 Hz."
   />
 </div>
 
@@ -140,6 +140,6 @@ Xavier closing a 50 Hz loop against a hard deadline is a near-ideal testbed for
 the question I am most interested in now: **how do you get modern learned models
 fast enough to sit inside a real control loop?**
 
-The obvious next step is to bring learned components into this stack — and to do
+The obvious next step is to bring learned components into this stack - and to do
 it under the same constraint that governs everything else here, which is that
 the answer has to arrive before the next control cycle.

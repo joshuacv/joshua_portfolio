@@ -35,7 +35,7 @@ const href = url(`/work/${project.id}`);
       <MediaLoop
         video={d.video}
         poster={cardImage}
-        alt={`${d.title} — ${d.tagline}`}
+        alt={`${d.title} - ${d.tagline}`}
         ratio="16 / 10"
         slotLabel="footage"
       />
@@ -95,8 +95,8 @@ const href = url(`/work/${project.id}`);
   }
 
   /* Rendered on every card, empty or not: the credit strip reserves one line
-     so that a card carrying a credit (Fastbots) does not push its body — and
-     every line under it — lower than the rest of the rail. */
+     so that a card carrying a credit (Fastbots) does not push its body - and
+     every line under it - lower than the rest of the rail. */
   .card__credit {
     margin: 0.5rem 0 0;
     font-family: var(--font-mono);

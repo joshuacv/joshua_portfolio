@@ -26,7 +26,7 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
 
       <p class="lede hero__lede">
         Ten years across swarm intelligence, industrial mobile robots and autonomous
-        mobility — a PhD in collective behaviour, production C++ shipped on
+        mobility - a PhD in collective behaviour, production C++ shipped on
         industrial AMRs, and field robotic deployments from the Venice lagoon to AI deployments in public
         transport in Austria.
       </p>
@@ -68,7 +68,7 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
         <p class="about__body">
           What connects those is a preference for systems that get built and
           measured rather than only published. I am most useful on problems that
-          span the whole stack — perception and estimation through planning and
+          span the whole stack - perception and estimation through planning and
           control, down to the firmware and the wiring.
         </p>
         <p class="about__body">
@@ -175,7 +175,18 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
         {
           education.map((ed) => (
             <li class="cv__item">
-              <div class="cv__when mono">{ed.period}</div>
+              <div class="cv__when mono">
+                {ed.logo && (
+                  <img
+                    class="cv__logo"
+                    src={url(ed.logo)}
+                    alt={`${ed.school} logo`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                <span>{ed.period}</span>
+              </div>
               <div class="cv__what">
                 <h3 class="cv__org">{ed.school}</h3>
                 <p class="cv__title">{ed.degree}</p>
@@ -214,8 +225,10 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
     padding-top: clamp(2.5rem, 7vw, 5rem);
   }
 
+  /* The role line is the longest eyebrow on the site, so unlike the short
+     section labels it has to be allowed to wrap. */
   .hero__eyebrow {
-    white-space: nowrap;
+    white-space: normal;
   }
 
   .hero__title {
@@ -531,19 +544,19 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
      let width follow. The light plate is not decoration: most supplied logos
      are dark-on-transparent and would disappear against the dark theme. */
   .cv__logo {
-    /* Fixed box rather than a fixed height: the supplied logos run from 1:1
-       (DS Automotion) to 3.5:1 (Maruti), so normalising on height alone would
-       make the wide wordmarks four times the width of the square marks.
-       contain fits each inside the same footprint, keeping the column even. */
+    /* Square plate, sized to most of the 150px column. The supplied logos run
+       from 1:1 (DS Automotion) to 3.5:1 (Maruti); contain fits each inside the
+       same square footprint, so every row presents at the same size and the
+       wide wordmarks stop dwarfing the square marks. */
     width: 104px;
-    height: 46px;
+    height: 104px;
     object-fit: contain;
     /* Every logo ships on an opaque white background, so the plate merges with
        the artwork and also keeps them legible against the dark theme. */
     background: #fff;
     border: 1px solid var(--line);
-    border-radius: 4px;
-    padding: 6px 8px;
+    border-radius: 5px;
+    padding: 10px;
   }
 
   .cv__org {
@@ -603,6 +616,14 @@ const peerReviewed = publications.filter((p) => !p.kind).length;
   }
 
   /* ── Responsive ───────────────────────────────────────────────────────── */
+  @media (max-width: 620px) {
+    /* Once the role wraps to two lines the trailing rule is squeezed to a stub;
+       drop it and give the text the full width. */
+    .hero__eyebrow::after {
+      display: none;
+    }
+  }
+
   @media (max-width: 880px) {
     .about {
       grid-template-columns: 1fr;

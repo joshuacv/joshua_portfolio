@@ -1,36 +1,45 @@
 ---
 title: Underwater Robot Swarms
-tagline: Bio-inspired collective behaviour, validated in the Venice lagoon
+tagline: One design paradigm for collective behaviour - formalised in a PhD, validated in the Venice lagoon
 org: Artificial Life Lab, University of Graz
-role: Researcher
-period: 2015 — 2021
-order: 5
+role: Researcher · PhD, TU Graz
+period: 2015 - 2021
+order: 4
 summary: >-
-  Designed and deployed swarms of underwater robots that coordinate using
-  minimalistic local communication — no central controller, no globally communicated state.
-  Built the embedded sensing, communication and actuation software, and validated
-  the collective behaviours in real field deployments in the Venice lagoon.
+  Six years on subCULTron, designing and deploying swarms of underwater robots
+  that coordinate through minimalistic local communication - no central
+  controller, no global state. The doctoral strand argued that the sprawl of
+  bio-inspired swarm algorithms are largely instances of a single design
+  paradigm; the field strand took that paradigm down to embedded C/C++ and into
+  the Venice lagoon.
 tags:
+  - Swarm Intelligence
+  - Distributed Algorithms
+  - Collective Behaviour
   - Embedded C/C++
-  - Swarm Robotics
-  - Distributed Control
   - Field Robotics
   - Sensor Fusion
   - Simulation
 metrics:
+  - value: PhD
+    label: TU Graz, Computer Science
   - value: "12"
     label: Peer-reviewed papers
-  - value: Venice, Graz
-    label: Real-world field site
+  - value: Venice
+    label: Lagoon field deployments
+  - value: "2019"
+    label: Thesis defended
 
 video: # e.g. media/underwater-swarm.mp4
-# The subCULTron fleet on a Venice dock. 4:3 source — the 21/9 hero crops to the
+# The subCULTron fleet on a Venice dock. 4:3 source - the 21/9 hero crops to the
 # aPads and the aFish row; the full frame is shown as a figure in the body.
 poster: media/subcultron-fleet-venice.webp
 links:
-  - label: "Collective event detection… (ALIFE 2019)"
-    href: "#"
-  - label: "CIMAX (Adaptive Behavior, 2020)"
+  - label: "A swarm design paradigm unifying swarm behaviors (Bioinspiration & Biomimetics, 2020)"
+    href: "https://doi.org/10.1088/1748-3190/ab6ed9"
+  - label: "Collective event detection using bio-inspired minimalistic communication (ALIFE 2019)"
+    href: "https://doi.org/10.1162/isal_a_00232"
+  - label: "CIMAX: Collective information maximization (Adaptive Behavior, 2020)"
     href: "#"
 ---
 
@@ -47,33 +56,56 @@ is off the table.
 
 The question the lab was asking: can a group of robots that can only exchange
 very small messages with immediate neighbours still reach a *collective*
-decision — detect an event, agree that it happened, and act on it — with no
+decision - detect an event, agree that it happened, and act on it - with no
 central coordinator?
 
-## Approach
+That question ran on two tracks at once, and they were the same project. One was
+theoretical, and became my doctoral thesis. The other was a fleet of robots in a
+lagoon.
 
-The answer we pursued was bio-inspired and deliberately minimalistic. Rather than
-building a consensus protocol, the robots ran simple local rules loosely modelled
-on collective behaviour in biological systems, and the group-level decision
-emerged from the interaction pattern rather than being computed anywhere in
-particular.
+## One paradigm rather than a catalogue
+
+Swarm robotics has a proliferation problem. The literature contains a long list
+of bio-inspired algorithms - each modelled on a different organism, each
+presented with its own vocabulary, each demonstrating some collective behaviour.
+Aggregation here, foraging there, collective decision-making somewhere else.
+
+The thesis started from a suspicion: that many of these are not actually distinct
+algorithms. They are the same underlying mechanism, parameterised differently and
+described in the language of whichever organism inspired them.
+
+So I developed a design paradigm intended to unify these behaviours under a
+single formulation built on **minimalistic communication** - robots exchanging
+very small amounts of information with immediate neighbours only. The claim being
+tested was that known collective behaviours could be recovered as special cases
+of one framework rather than requiring bespoke algorithms. It was published as
+*A swarm design paradigm unifying swarm behaviors using minimalistic
+communication* in **Bioinspiration & Biomimetics** (2020), and the doctorate was
+completed under Prof. Franz Wotawa and Prof. Thomas Schmickl at TU Graz.
+
+The framework deliberately did not stop at simulation, and that is where the two
+tracks meet. A unification claim is only interesting if it survives contact with
+real robots, where the idealised assumptions behind most swarm models - reliable
+communication, synchronous updates, homogeneous agents - quietly fail. subCULTron
+supplied the robots that could falsify it.
+
+## From framework to firmware
 
 I designed and implemented these algorithms in simulation and then ported them
-down to embedded C/C++ running on the physical robots — sensing, inter-robot
+down to embedded C/C++ running on the physical robots - sensing, inter-robot
 communication and actuation modules. That full-stack path from behaviour model to
 firmware is where most of the interesting failures live: a rule that converges
 cleanly in simulation can be destroyed by a message-loss rate the simulator never
 modelled.
 
-Two results came out of this line of work: **collective event detection using
-bio-inspired minimalistic communication** (ALIFE 2019), and **CIMAX**, on
+Two further results came out of this line of work: **collective event detection
+using bio-inspired minimalistic communication** (ALIFE 2019), and **CIMAX**, on
 collective information maximization using local communication (Adaptive Behavior,
 2020).
 
-
 ## Field deployment
 
-The behaviours were validated in real deployments in the **Venice lagoon** — a
+The behaviours were validated in real deployments in the **Venice lagoon** - a
 site with genuinely adversarial conditions for this class of system: turbidity,
 currents, and communication characteristics that no lab tank reproduces.
 
@@ -84,12 +116,18 @@ what you can recover if it fails, how many runs you get per day.
 <Figure
   src="media/subcultron-fleet-venice.webp"
   alt="The subCULTron fleet laid out on a dock in the Venice lagoon: a row of aFish, two aPad surface vessels, and an aMussel"
-  caption="The fleet on a Venice dock before deployment — the aFish row in front, two solar-powered aPads behind acting as the surface tier, and a single aMussel on the case. Everything the swarm knows is exchanged locally between these units."
+  caption="The fleet on a Venice dock before deployment - the aFish row in front, two solar-powered aPads behind acting as the surface tier, and a single aMussel on the case. Everything the swarm knows is exchanged locally between these units."
+/>
+
+<Figure
+  src="media/amussel-floating.webp"
+  alt="Three aMussel units floating on open water in the Venice lagoon"
+  caption="Units on the surface between dives. At this spacing, each one can only hear its immediate neighbours - which is the entire premise the paradigm was built on."
 />
 
 Below the surface, the conditions the text above describes stop being abstract.
 Visibility collapses within a couple of metres, the units drift on the current,
-and the water column looks the same in every direction — which is precisely why
+and the water column looks the same in every direction - which is precisely why
 none of the coordination could depend on a robot knowing where it was.
 
 <div style="display: grid; gap: 1.5rem;">
@@ -105,7 +143,7 @@ none of the coordination could depend on a robot knowing where it was.
     poster="media/amussel-dive-poster.webp"
     alt="A single aMussel suspended in turbid green water during a dive in the Venice lagoon"
     ratio="16 / 9"
-    caption="A single aMussel holding depth in open water. This is the visibility the swarm operated in — the reason the sensing is acoustic and the communication is local."
+    caption="A single aMussel holding depth in open water. This is the visibility the swarm operated in - the reason the sensing is acoustic and the communication is local."
   />
 </div>
 
@@ -113,6 +151,12 @@ none of the coordination could depend on a robot knowing where it was.
 
 Minimalistic-communication swarms are a useful stress test for a broader question
 in multi-robot autonomy: how much coordination can you get from how little
-information? The constraints that make underwater hard — partial observability,
-unreliable communication, no global state — are the same constraints that show up
+information? The constraints that make underwater hard - partial observability,
+unreliable communication, no global state - are the same constraints that show up
 in any decentralised multi-agent system operating in the real world.
+
+The through-line into everything I have built since is a preference for **one
+well-chosen abstraction over many special cases**. The same instinct that asked
+whether a dozen swarm algorithms were really one algorithm is the instinct that
+later shaped how I drew the localization interface on a production robot: find
+the boundary that makes the variations parameters rather than rewrites.

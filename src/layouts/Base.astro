@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { title, description = site.description } = Astro.props;
-const pageTitle = title ? `${title} — ${site.short}` : site.title;
+const pageTitle = title ? `${title} - ${site.short}` : site.title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -43,7 +43,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </script>
 
     {/* GoatCounter: cookieless page-view counting, so no consent banner is
-        needed. Production only — otherwise local dev reloads would dominate
+        needed. Production only - otherwise local dev reloads would dominate
         the numbers on a low-traffic site. */}
     {import.meta.env.PROD && (
       <script

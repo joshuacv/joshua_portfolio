@@ -19,7 +19,7 @@ export const areas: { id: Area; label: string; blurb: string }[] = [
     id: 'mobility',
     label: 'Autonomous mobility & intelligent transport',
     blurb:
-      'Current work at JKU — Autonomous driving research, Smart public transport using AI, pedestrian safety around autonomous vehicles, V2P warning strategies, Reinforcement learning for heterogenous swarms, and machine learning for public transport.',
+      'Current work at JKU - Autonomous driving research, Smart public transport using AI, pedestrian safety around autonomous vehicles, V2P warning strategies, Reinforcement learning for heterogenous swarms, and machine learning for public transport.',
   },
   {
     id: 'swarm',
@@ -41,10 +41,9 @@ export const publications: Publication[] = [
   {
     title: 'Assessing Localization Technologies for Pedestrian Collision Avoidance',
     authors: 'J. C. Varughese, J. Gorospe, N. Certad, C. Olaverri-Monreal',
-    venue: 'arXiv:2605.18295',
+    venue: 'IEEE Intelligent Vehicles Symposium (IV), Naples',
     year: '2026',
     area: 'mobility',
-    kind: 'preprint',
     href: 'https://arxiv.org/abs/2605.18295',
   },
   {
@@ -114,7 +113,7 @@ export const publications: Publication[] = [
   {
     title: 'D2.1 Stakeholder analysis and needs for passenger-aware on-board services',
     authors: 'N. Certad, J. C. Varughese, E. Del Re, et al.',
-    venue: 'OptiPEX — Horizon Europe project deliverable',
+    venue: 'OptiPEX - Horizon Europe project deliverable',
     year: '2023',
     area: 'mobility',
     kind: 'report',
@@ -125,7 +124,7 @@ export const publications: Publication[] = [
     title: 'Autonome Roboterschwärme als Stabilisatoren gefährdeter Ökosysteme',
     authors:
       'M. Szopek, R. Thenius, M. Stefanec, D. Hofstadler, J. C. Varughese, M. Vogrin, et al.',
-    venue: 'universi — Universitätsverlag Siegen',
+    venue: 'universi - Universitätsverlag Siegen',
     year: '2021',
     area: 'swarm',
     citations: 4,
@@ -182,7 +181,7 @@ export const publications: Publication[] = [
     href: 'https://doi.org/10.1016/j.ifacol.2018.03.066',
   },
   {
-    title: 'WOSPP — A Wave Oriented Swarm Programming Paradigm',
+    title: 'WOSPP - A Wave Oriented Swarm Programming Paradigm',
     authors: 'R. Thenius, J. C. Varughese, D. Moser, T. Schmickl',
     venue: 'IFAC-PapersOnLine 51(2):379–384',
     year: '2018',
@@ -192,7 +191,7 @@ export const publications: Publication[] = [
   },
   {
     title:
-      'Artificial plants — vascular morphogenesis controller-guided growth of braided structures',
+      'Artificial plants - vascular morphogenesis controller-guided growth of braided structures',
     authors:
       'D. N. Hofstadler, J. C. Varughese, S. A. Nielsen, D. A. Leon, P. Ayres, P. Zahadat, et al.',
     venue: 'arXiv:1804.06343',
@@ -206,7 +205,7 @@ export const publications: Publication[] = [
     title:
       'Quantification and Analysis of the Resilience of Two Swarm Intelligent Algorithms',
     authors: 'J. C. Varughese, R. Thenius, T. Schmickl, F. Wotawa',
-    venue: 'GCAI 2017 — EPiC Series in Computing, 50:148–161',
+    venue: 'GCAI 2017 - EPiC Series in Computing, 50:148–161',
     year: '2017',
     area: 'swarm',
     citations: 13,
@@ -221,7 +220,7 @@ export const publications: Publication[] = [
     citations: 27,
   },
   {
-    title: 'subCULTron — Cultural Development as a Tool in Underwater Robotics',
+    title: 'subCULTron - Cultural Development as a Tool in Underwater Robotics',
     authors:
       'R. Thenius, D. Moser, J. C. Varughese, S. Kernbach, I. Kuksin, O. Kernbach, et al.',
     venue: 'Artificial Life and Intelligent Agents Symposium (Springer)',
@@ -302,7 +301,7 @@ export const awards = [
   {
     year: '2009',
     title:
-      'Best engineering design award — vehicle design, BAJA SAE all-terrain vehicle design and racing competition',
+      'Best engineering design award - vehicle design, BAJA SAE all-terrain vehicle design and racing competition',
     org: 'BAJA SAE, Indore',
   },
   {

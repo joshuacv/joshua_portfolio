@@ -3,11 +3,11 @@ title: OptiPEX & Autonomous Mobility
 tagline: Leading EU-funded work on last-mile delivery and pedestrian safety around autonomous vehicles
 org: Johannes Kepler University, Linz
 role: Postdoctoral Researcher · Technical Lead
-period: 2024 — Present
-order: 4
+period: 2024 - Present
+order: 3
 summary: >-
   Technical lead for the EU-funded OptiPEX project optimizing passenger experience in public transport systems.
-  My work here focuses of leading the development of onboard occupancy detection and also developing a novel pedestrian
+  My work here focuses on leading the development of onboard occupancy detection and also developing a novel pedestrian
   localization system based on Ultra Wide Band Technology for reducing collision risk with pedestrians in shared spaces.
 tags:
   - ROS 2
@@ -23,44 +23,118 @@ metrics:
     label: EU project technical coordination
 
 video: # e.g. media/optipex.mp4
-poster: # e.g. media/optipex.jpg
+# Built from "OptiPEx Logo.png" (navy wordmark, for light backgrounds) rather
+# than the Lite variant, whose white wordmark would vanish on the light theme.
+# Navy on near-black fails too, so the mark sits on a white field - legible in
+# both themes, and consistent with the experience logos. Pre-cut to each frame's
+# ratio (21/9 hero, 16/10 card) so object-fit: cover has nothing left to crop.
+poster: media/optipex-hero.webp
+thumbnail: media/optipex-card.webp
 links:
   - label: OptiPEX project
     href: "#"
+  - label: "Assessing localization technologies for pedestrian collision avoidance (IV 2026)"
+    href: "https://arxiv.org/abs/2605.18295"
   - label: "Evaluating pedestrian risks… (IV 2025)"
-    href: "#"
+    href: "https://arxiv.org/html/2504.08316v1"
   - label: "V2P collision warnings… (IV 2025)"
-    href: "#"
+    href: "https://arxiv.org/abs/2504.13906"
 ---
+
+import Figure from '../../components/Figure.astro';
 
 ## Context
 
-In the OptiPEx project, the goal is to optimize passener experience onboard public 
-transport systems and improve pedestrian safety in shared spaces. Being the technical lead of 
+In the OptiPEX project, the goal is to optimize passenger experience onboard public
+transport systems and improve pedestrian safety in shared spaces. Being the technical lead of
 this project, I actively develop methods to communicate with and localize pedestrians using UWB technology, which
-is then fused with the AI based pedestrian detection. Furthermore, I also manage the development and deployment of 
+is then fused with the AI/ML based pedestrian detection. Furthermore, I also manage the development and deployment of
 AI models capable of detecting the occupancy level of the compartments, enabling smart public transport systems.
 
-## Pedestrian risk in shared spaces
+## Locating pedestrians with ultra-wideband
 
-We ran autonomous vehicle experiments on a fixed track to evaluate how pedestrians
-actually behave and what risks emerge when they share space with an autonomous
-vehicle. Running this as a controlled physical experiment rather than a simulation
-study was the point — pedestrian behaviour around vehicles is exactly the kind of
-thing that simulated models get subtly and consequentially wrong.
+A vehicle in a shared space has to know where the people around it are, and
+vision alone is a fragile way to find out due to challenges such as occlusion, dependence on 
+lighting conditions, weather conditions etc. The strand I develop directly uses **ultra-wideband** 
+to close that gap. UWB ranges by timing very short pulses rather than by measuring signal strength, so
+it degrades gracefully where narrowband radio and GNSS do not - it is far less
+disturbed by multipath in the reflective urban environments where shared spaces
+actually exist, and it does not depend on a clear sightline the way a camera
+does. This work was a followup work published at IV 2025 (link)
 
-Published as *Evaluating pedestrian risks in shared spaces through autonomous
-vehicle experiments on a fixed track* at the **36th IEEE Intelligent Vehicles
-Symposium (IV 2025)**.
+Two things follow from that, and both are the work:
 
-## V2P collision warnings for distracted pedestrians
+- **Communicating with the pedestrian, not just detecting them.** UWB is a
+  two-way radio link as well as a ranging method, which makes the pedestrian a
+  participant in the exchange rather than a passive object being observed.
+- **Fusing UWB ranges with AI-based pedestrian detection.** Neither source is
+  sufficient alone. Vision gives rich context and classifies what it sees but
+  fails under occlusion and poor light; UWB gives a robust range to a device
+  under exactly those conditions but knows nothing about the scene. Fused, each
+  covers the other's failure mode.
 
-A companion study compared vehicle-to-pedestrian collision warning strategies
-against traditional audio alerts, specifically for **distracted** pedestrians —
-the population that conventional alerting is worst at reaching.
+I evaluated three promising methods for pedestrian localization (GNSS, Bluetooth channel sounding and UWB)
+in the work below:
 
-Published as *V2P collision warnings for distracted pedestrians: A comparative
-study with traditional audio alerts* at **IV 2025**.
+### What the measurements showed
+
+We benchmarked the candidate technologies against each other on a Clearpath
+Husky A200 carrying two UWB evaluation kits, a Bluetooth 6.0 kit and a GNSS
+receiver, with an RTK-corrected GNSS fix as ground truth. Twelve experiments ran
+across three environments - open ground, a built-up area, and a roofed area with
+limited line of sight to the satellites - measuring the robot-to-pedestrian
+distance, including runs where the pedestrian was deliberately occluded.
+
+Distance RMSE, in metres:
+
+| Environment | Smartphone GNSS | Bluetooth 6.0 | UWB |
+| --- | --- | --- | --- |
+| Open ground | 14.68 | 0.72 | **0.23** |
+| Built-up | 17.31 | 1.39 | **0.51** |
+| Roofed, limited sky view | 20.76 | 2.01 | **0.63** |
+
+Smartphone-based location with 15 to 21 metres of
+error quite is useless for deciding whether a vehicle and a pedestrian are about to
+occupy the same space. UWB stays inside a metre in every condition tested, and
+holds up under the roofed case that degrades GNSS most, which is exactly the
+geometry of the covered stops and station approaches this work targets.
+
+<Figure
+  src="media/husky-uwb-setup.webp"
+  alt="A Clearpath Husky A200 robot with two UWB evaluation kits, a Bluetooth 6.0 kit and a GNSS receiver mounted on its deck, each annotated"
+  caption="The measurement platform: a Clearpath Husky A200 carrying two UWB evaluation kits (green), a Bluetooth 6.0 kit (blue) and the GNSS receiver (red). Figure 2 from the paper."
+  maxWidth="440px"
+/>
+
+Published as *Assessing Localization Technologies for Pedestrian Collision
+Avoidance* at the **IEEE Intelligent Vehicles Symposium (IV 2026)** in Naples -
+[arXiv:2605.18295](https://arxiv.org/abs/2605.18295).
+
+## Onboard occupancy detection
+
+Knowing how full a compartment is, carriage by carriage, the very useful capability for passengers to 
+board the correct carriage when the tram arrives. The approach here uses **CSRNet** - a crowd-counting architecture that regresses a
+density map rather than detecting individual people, which is what makes it
+workable in a packed compartment where bodies occlude one another and
+person-by-person detection degrades fastest.
+
+My role on this strand is **technical coordinator** and deployment expert:
+
+- Coordinating the **data collection** campaigns that produce footage
+  representative enough to train against.
+- Running the **labelling** effort that turns that footage into usable training
+  data.
+- Ensuring **GDPR compliance** throughout - an unavoidable constraint when the
+  training data is video of identifiable passengers in a public space, and one
+  that shapes what can be collected and retained before any model design
+  question is reached.
+- Evaluating **Jetson platforms** for deployment, since the model has to run on
+  the vehicle within a fixed power and thermal budget rather than in a data
+  centre.
+
+Running AI models on real world systems requires overcoming significant regulatory and hardware constraints.  
+What can lawfully be recorded determines the training set, and what fits on the embedded platform determines 
+which model is deployable at all are also the kind of problems I deal with rather than just technical development.
 
 ## Coordination
 
@@ -68,11 +142,3 @@ Beyond the research, the role is substantially about alignment: OptiPEX spans
 research groups, industry stakeholders and public transport innovation
 initiatives, and technical coordination means keeping those interests pointed at
 the same deliverable.
-
-## Where this is heading
-
-The direction I am pushing this work is toward **learning-based methods for
-interaction-heavy autonomy**. Shared spaces are the setting where hand-specified
-rules degrade fastest, because the behaviour being modelled is social rather than
-physical. Predicting and responding to human intent is a learning problem, and
-this is the domain where I want to bring that in.

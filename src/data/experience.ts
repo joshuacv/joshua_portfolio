@@ -6,7 +6,7 @@ export type Role = {
   points: string[];
   /**
    * Path under /public to the organisation's logo, e.g. "media/logo-jku.png".
-   * Optional — a role without one simply renders no logo rather than a gap.
+   * Optional - a role without one simply renders no logo rather than a gap.
    */
   logo?: string;
 };
@@ -17,7 +17,7 @@ export const experience: Role[] = [
     logo: 'media/logo-jku.png',
     title: 'Postdoctoral Researcher, Intelligent Transport Systems',
     location: 'Linz, Austria',
-    period: '04/2024 — Present',
+    period: '04/2024 - Present',
     points: [
       'Leading development of last-mile delivery and autonomous mobility capabilities within the department.',
       'Technical lead and coordinator for the EU-funded OptiPEX project, aligning research, industry stakeholders and public transport innovation initiatives.',
@@ -30,9 +30,9 @@ export const experience: Role[] = [
     logo: 'media/logo-ds-automotion.jpeg',
     title: 'Robotics Core Software Developer',
     location: 'Linz, Austria',
-    period: '09/2021 — 03/2024',
+    period: '09/2021 - 03/2024',
     points: [
-      'Built C++ drivers and control modules for industrial mobile robots — localization, actuation and battery systems.',
+      'Built C++ drivers and control modules for industrial mobile robots - localization, actuation and battery systems.',
       'Spearheaded hardware integration, software development and testing of the Fastbots system across its first three iterations.',
       'Implemented the core localization interface and other central components of the shipped Fastbots product.',
       'Contributed to software architecture decisions for scalable, production-grade autonomous systems.',
@@ -44,7 +44,7 @@ export const experience: Role[] = [
     logo: 'media/logo-uni-graz.png',
     title: 'Researcher',
     location: 'Graz, Austria',
-    period: '11/2015 — 07/2021',
+    period: '11/2015 - 07/2021',
     points: [
       'Designed and implemented bio-inspired swarm intelligence algorithms for multi-robot systems in simulation and on physical robots.',
       'Developed embedded C/C++ software for sensing, communication and actuation modules.',
@@ -58,7 +58,7 @@ export const experience: Role[] = [
     logo: 'media/logo-micron.png',
     title: 'Process Engineer',
     location: 'Singapore',
-    period: '06/2012 — 10/2015',
+    period: '06/2012 - 10/2015',
     points: [
       'Process owner for four FEOL photolithography processes during a 3D NAND ramp-up.',
       'Led troubleshooting and qualification of tools using statistical process control.',
@@ -70,7 +70,7 @@ export const experience: Role[] = [
     logo: 'media/logo-maruti.png',
     title: 'Assistant Manager, Plant Maintenance',
     location: 'Gurgaon, India',
-    period: '06/2010 — 07/2012',
+    period: '06/2010 - 07/2012',
     points: [
       'Reduced robotic system downtime from 7 days to 1 day by introducing offline testing and training systems.',
       'Developed a statistical analysis tool to identify chronic breakdown patterns and improve preventive maintenance planning.',
@@ -82,20 +82,23 @@ export const experience: Role[] = [
 export const education = [
   {
     school: 'Graz University of Technology (TU Graz)',
+    logo: 'media/logo-tugraz.png',
     degree: 'PhD in Computer Science',
-    period: '11/2015 — 11/2019',
+    period: '11/2015 - 11/2019',
     note: 'Investigated a unifying paradigm to unite bio-inspired collective behaviours and validated it on real robots. Advisors: Prof. Franz Wotawa, Prof. Thomas Schmickl.',
   },
   {
     school: 'National University of Singapore (NUS)',
+    logo: 'media/logo-nus.webp',
     degree: 'MSc in Mechatronics',
-    period: '07/2012 — 06/2013',
+    period: '07/2012 - 06/2013',
     note: 'Major in control systems and embedded systems. GPA 4.25/5.',
   },
   {
     school: 'National Institute of Technology (NIT), Jamshedpur',
+    logo: 'media/logo-nitjsr.png',
     degree: 'BTech, Electrical and Electronics Engineering',
-    period: '08/2006 — 05/2010',
+    period: '08/2006 - 05/2010',
     note: 'Major in control systems and embedded systems. GPA 8.92/10.',
   },
 ];

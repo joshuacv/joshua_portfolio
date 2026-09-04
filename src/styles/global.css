@@ -139,7 +139,7 @@ p {
 }
 
 /* Sections are separated by whitespace alone. The divider is drawn by the
-   .eyebrow rule below, which both separates and labels — one line per section.
+   .eyebrow rule below, which both separates and labels - one line per section.
    Do not add a border here: it lands a few rem above the eyebrow rule and the
    two read as a doubled line. */
 .section {
@@ -153,11 +153,13 @@ p {
   border-top: 0;
 }
 
-/* Eyebrow / section label — the monospace tag that runs through the site */
+/* Eyebrow / section label - the monospace tag that runs through the site */
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 1.5rem;
-  /* Tracking eases off as the size goes up — 0.16em was tuned for 0.72rem and
+  /* Caps at the 1.5rem chosen for desktop, but scales down on narrow
+     viewports - at 1.5rem the hero's role line cannot fit a phone. */
+  font-size: clamp(1rem, 4.2vw, 1.5rem);
+  /* Tracking eases off as the size goes up - 0.16em was tuned for 0.72rem and
      reads far too loose at display size. */
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -256,6 +258,42 @@ p {
   border: 1px solid var(--line-soft);
   border-radius: 3px;
   padding: 0.1em 0.36em;
+}
+
+/* Tables in project bodies. Wrapped in .prose so they inherit the measure;
+   the container scrolls rather than the page when a table is too wide. */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-block: 1.6rem;
+}
+
+.prose thead th {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 400;
+  text-align: left;
+  padding: 0 0.9rem 0.5rem 0;
+  border-bottom: var(--rule);
+}
+
+.prose tbody td {
+  padding: 0.55rem 0.9rem 0.55rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.prose th:last-child,
+.prose td:last-child {
+  padding-right: 0;
 }
 
 .prose blockquote {

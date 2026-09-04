@@ -1,4 +1,4 @@
-# Hi there, I'm Joshua C. Varughese
+# Hi there, I'm Joshua Cherian Varughese
 
 ### Senior Robotics Engineer & Senior Researcher | Autonomous Mobility & Swarm Intelligence
 

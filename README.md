@@ -1,4 +1,5 @@
-# Hi there, I'm Joshua C. Varughese / Joshua Cherian Varughese 👋
+# Hi there, I'm Joshua C. Varughese
+
 ### Senior Robotics Engineer & Senior Researcher | Autonomous Mobility & Swarm Intelligence
 
 I take autonomy from *theory* to *deployed hardware*. With over a decade of experience spanning swarm intelligence, industrial mobile robots (AMRs), and autonomous transport, I specialize in systems that bridge the gap between advanced research and production-grade engineering.
@@ -54,3 +55,9 @@ Six years of research on bio-inspired swarm robotics, formalizing a unifying par
 - 📄 **Academic CV & Publications:** [View CV & Research](https://joshuacv.github.io/joshua_portfolio/cv)
 - 💼 **LinkedIn:** [linkedin.com/in/jcvarughese](https://www.linkedin.com/in/jcvarughese)
 - 📧 **Email:** [joshuacherian.v@gmail.com](mailto:joshuacherian.v@gmail.com)
+
+## Aliases that you may find me under
+## You might also call me Joshua Cherian Varughese
+## Joshua Cherian Varghese
+## or Joshua Varghese 
+## or Joshua Cherian Varghese 👋

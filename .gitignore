@@ -6,16 +6,16 @@ dist/
 .env
 .env.production
 
-# Local working notes — not for publication
+# Local working notes - not for publication
 NOTES.local.md
 
-# Original CV with home address / phone — never publish this
+# Original CV with home address / phone - never publish this
 private/
 
 # ── Raw media masters ────────────────────────────────────────────────────────
 # src/data holds two unrelated things: hand-written data modules (committed)
 # and camera originals / source footage (never committed). The originals run to
-# hundreds of MB, and GitHub hard-rejects any single file over 100 MB — a
+# hundreds of MB, and GitHub hard-rejects any single file over 100 MB - a
 # `git add -A` that catches one produces a commit that cannot be pushed.
 #
 # Web-ready derivatives live in public/media/ and ARE committed; that is what

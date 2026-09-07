@@ -8,7 +8,7 @@ order: 1
 summary: >-
   Built the core localization interface and C++ control modules for Fastbots a prominent, agile industrial mobile robot platform. Drove hardware integration,
   software development and testing across its first three iterations, taking it
-  from prototype to a shipping product.
+  from prototype to a product.
 tags:
   - C++
   - ROS
@@ -24,7 +24,6 @@ metrics:
     label: Prototype to deployment
 video: # e.g. media/fastbots.mp4
 poster: media/fastbots-poster.webp
-# Card image only. The source is 344x229, too small for the full-width hero.
 thumbnail: media/fastbots-ifoy-2026.webp
 mediaCredit:
   text: SSI SCHÄFER
@@ -38,53 +37,42 @@ import Figure from '../../components/Figure.astro';
 
 ## The problem
 
-Industrial mobile robots have to work in environments that were never designed
-for them. Warehouse and production floors change shape daily: pallets move,
-racking gets reconfigured, people and forklifts cut across paths. A robot that
-localizes beautifully in a static map degrades badly once the map stops matching
-the world.
+The fastbot system at DS Autotmotion was developed with the ambitious goal of
+replacing traditional intralogistics methods such as conveyor technology. The vision
+is that a swarm of robots would replace fixed conveyor systems for moving items in warehouses
+from the shelves to the packing area. The moment a swarm comes into play - quite a few
+problems have to be solved - how do you coordinate activities between the robots, how do you 
+localize the robots? How would be avoid collisions? How do you plan and replan motion
+efficiently?
 
-Fastbots was DS Automotion's platform for exactly that setting - and it had to be
-a product, not a demo. That meant every design decision was constrained by what
-could be manufactured, serviced by field technicians, and certified for
-industrial deployment.
 
 ## My role
 
-I was responsible for the **core localization interface** and a set of C++
-drivers and control modules covering actuation and battery systems. Alongside
-the software work I drove hardware integration and testing across the platform's
-first three iterations - the phase where the architecture is still moving and
-each cycle has to feed validation results back into the next design.
-
-That put me between two worlds: close enough to the hardware to debug a CAN bus
-or an actuator timing issue, and close enough to the architecture to argue about
-how the localization layer should be abstracted so it could survive the next
-three sensor configurations.
+I was the single software engineer given the hardware platform and I set to work building the brain of the robots. 
+This meant writing drivers for the motors, battery, localization system and the path planning system. Most of these were
+second nature to me given that I had worked with several hardware modules by then. What was quite novel in the robots was its
+localization sytem and the planning module. 
 
 ## Approach
 
-The localization interface was designed as an abstraction boundary rather than a
-single algorithm. Production robots outlive their sensor choices, so the goal was
-that swapping or fusing an estimator did not ripple into the navigation stack
-above it.
+Instead of the classical particle filter based localization, we decided to use a novel image based sensor which 
+would make images of the floor and then localize based on slight variations on the image. The sensor was a product in early stages of 
+production from Accerion, a company based in Netherlands. I integrated the accerion sensor into our robot - 
+improving the accerion SDK and fixing several bugs in their core-software in the process. This required closely working with the vendor company and testing
+their hardware and software on our robots. 
 
-Working across mechanical, electrical and product teams was not a side activity
-here - it was the job. Moving a prototype onto a deployable platform is mostly a
-sequence of negotiations about what the software can absorb versus what the
-hardware has to fix.
+Another challenge was to enable dynamic planning and replanning. The planning module was developed by RISC-software based on 
+time-window scheduling for the trajectories. Each robot would be given a schedule to occupy a time window and the control software 
+should make sure that the time windows are not violated. I developed the capability of time window tracking in the control software 
+so that controller could check and report on any violations.
 
 ## Outcome
-
-Fastbots shipped as a product, with the localization interface and control
-modules I built in the core of the system. The three-iteration cycle I supported
-established the validation loop the platform continued to develop on.
 
 The platform kept going after I left. In January 2026 the FastBots Solution was
 [nominated for the IFOY Award 2026](https://www.ssi-schaefer.com/de-at/newsroom/news/fastbots-solution-nominiert-1991536)
 in the *Robot Warehouse System* category - a fleet of networked mobile transport
 robots under centralised fleet control, which is the system those first three
-iterations were converging towards.
+iterations were converging towards. Today, the system is a full fledged product that has been tested in various warehouses.
 
 <Figure
   src="media/fastbots-ifoy-2026.webp"

@@ -58,14 +58,6 @@ Ours runs **ROS 2 on a Jetson AGX Xavier**, sensing the world through a **single
   maxWidth="500px"
 />
 
-That last constraint shapes everything. With no visual input, the entire
-perception and localization stack is geometric - every decision the car makes is
-derived from a planar scan. It removes an enormous class of problems (lighting,
-exposure, domain shift) and replaces them with a sharper one: all the
-information you will ever have is a ring of range measurements, so the
-algorithms working on it have to be good. We used particle filter to localize, numerical 
-optimization to calculate the optimal race line, a cubic spline based trajectory generator to 
-calculate collision avoidance paths and model predictive control for acuation. 
 
 ## My role
 
@@ -91,12 +83,12 @@ of tyre grip rather than comfortably inside them.
 So the racing stack runs a **custom MPC** instead, closing the loop at **50 Hz**.
 Model predictive control is the natural fit: it optimizes over a horizon against
 an explicit vehicle model subject to explicit constraints, which is exactly the
-shape of the racing problem. The engineering difficulty is that it has to solve
+racing problem. The engineering difficulty is that it has to solve
 that optimization to convergence, every 20 milliseconds, on an embedded GPU
 platform, without ever missing a deadline.
 
-The MPC went from integration to **race-ready in two weeks**, and ran in
-competition at the end of it. That timeline is the part I am most willing to be
+I could get the MPC from development, integration to **race-ready in two weeks**, 
+and ran in competition at the end of it. That timeline is the part I am most willing to be
 judged on. Replacing the controller at the centre of a working autonomy stack is
 the change most likely to break everything downstream of it, and doing it against
 a fixed external deadline removes the option of extending the schedule until it
@@ -104,12 +96,6 @@ feels safe. It worked because the interfaces around the controller were drawn
 well enough that swapping what sat inside them did not require renegotiating the
 rest of the stack.
 
-## Racing as a constraint
-
-Competition is a useful forcing function. A stack that works in the lab has
-soft deadlines; a stack that races has hard ones, and it has to survive
-conditions you did not choose - an unfamiliar track, limited practice time, and
-no opportunity to retune between runs.
 
 ## Result
 
@@ -132,9 +118,5 @@ with a stack built from scratch.
 
 The platform is the reason this project matters beyond the result. A Jetson
 Xavier closing a 50 Hz loop against a hard deadline is a near-ideal testbed for
-the question I am most interested in now: **how do you get modern learned models
-fast enough to sit inside a real control loop?**
-
-The obvious next step is to bring learned components into this stack - and to do
-it under the same constraint that governs everything else here, which is that
-the answer has to arrive before the next control cycle.
+the question I am most interested in now: **how do you get modern learned models like 
+RL assisted racing algorithms fast enough to sit inside a real control loop?**

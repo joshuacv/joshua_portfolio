@@ -1,6 +1,6 @@
 ---
 title: F1TENTH Autonomous Racing
-tagline: Lidar-only autonomy on a 1/10-scale race car - from Nav2 baseline to a custom MPC
+tagline: Lidar-only autonomy on a 1/10-scale race car - from a Nav2 baseline to a custom MPC
 org: Johannes Kepler University, Linz
 role: Team Lead & Lead Developer
 period: "2026"
@@ -62,8 +62,8 @@ Ours runs **ROS 2 on a Jetson AGX Xavier**, sensing the world through a **single
 ## My role
 
 I led the project as **team lead and lead developer**, responsible for the
-hardware and the software, with minor contributions (hardware building) from teammates. In practice
-that meant owning the whole vertical: vehicle build and wiring, sensor
+hardware and the software, with teammates contributing to the physical build.
+In practice that meant owning the whole vertical: vehicle build and wiring, sensor
 integration, the ROS 2 stack, the controller, and the trackside decisions during
 race weekend.
 
@@ -73,8 +73,9 @@ The first working system used **Nav2**. That was a deliberate choice - it gets a
 vehicle driving autonomously quickly, and it provides a known-good reference to
 measure against. For bring-up and early testing it was the right tool.
 
-It was not the right tool for racing because of its dependence on very good odometry. 
-Nav2 is engineered to reach a goal *safely* in an environment shared with people and obstacles: conservative
+It was not the right tool for racing, partly because of its dependence on very
+good odometry, and mostly because of what it optimizes for. Nav2 is engineered to
+reach a goal *safely* in an environment shared with people and obstacles: conservative
 velocity profiles, generous clearances, reactive replanning. Racing inverts
 almost every one of those priorities. You want minimum-time trajectories, you
 want to carry speed through corners, and you want to operate close to the limits
@@ -87,8 +88,8 @@ racing problem. The engineering difficulty is that it has to solve
 that optimization to convergence, every 20 milliseconds, on an embedded GPU
 platform, without ever missing a deadline.
 
-I could get the MPC from development, integration to **race-ready in two weeks**, 
-and ran in competition at the end of it. That timeline is the part I am most willing to be
+I took the MPC from development and integration to **race-ready in two weeks**,
+and raced it at the end of that. That timeline is the part I am most willing to be
 judged on. Replacing the controller at the centre of a working autonomy stack is
 the change most likely to break everything downstream of it, and doing it against
 a fixed external deadline removes the option of extending the schedule until it
@@ -118,5 +119,6 @@ with a stack built from scratch.
 
 The platform is the reason this project matters beyond the result. A Jetson
 Xavier closing a 50 Hz loop against a hard deadline is a near-ideal testbed for
-the question I am most interested in now: **how do you get modern learned models like 
-RL assisted racing algorithms fast enough to sit inside a real control loop?**
+the question I am most interested in now: how do you get modern
+learned models - RL-assisted racing policies, for instance - fast enough to sit
+inside a real control loop?**

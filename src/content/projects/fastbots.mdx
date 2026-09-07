@@ -6,9 +6,10 @@ role: Robotics Core Software Developer
 period: 2021 - 2024
 order: 1
 summary: >-
-  Built the core localization interface and C++ control modules for Fastbots a prominent, agile industrial mobile robot platform. Drove hardware integration,
+  Built the core localization interface and C++ control modules for Fastbots, a
+  prominent, agile industrial mobile robot platform. Drove hardware integration,
   software development and testing across its first three iterations, taking it
-  from prototype to a product.
+  from prototype to product.
 tags:
   - C++
   - ROS
@@ -37,34 +38,40 @@ import Figure from '../../components/Figure.astro';
 
 ## The problem
 
-The fastbot system at DS Autotmotion was developed with the ambitious goal of
-replacing traditional intralogistics methods such as conveyor technology. The vision
-is that a swarm of robots would replace fixed conveyor systems for moving items in warehouses
-from the shelves to the packing area. The moment a swarm comes into play - quite a few
-problems have to be solved - how do you coordinate activities between the robots, how do you 
-localize the robots? How would be avoid collisions? How do you plan and replan motion
-efficiently?
+The Fastbots system at DS Automotion was developed with the ambitious goal of
+replacing traditional intralogistics methods such as conveyor technology. The
+vision was that a swarm of robots would replace fixed conveyor systems for moving
+items in warehouses, from the shelves to the packing area. The moment a swarm
+comes into play, quite a few problems have to be solved. How do you coordinate
+activities between the robots? How do you localize them? How do you avoid
+collisions? How do you plan and replan motion efficiently?
 
 
 ## My role
 
-I was the single software engineer given the hardware platform and I set to work building the brain of the robots. 
-This meant writing drivers for the motors, battery, localization system and the path planning system. Most of these were
-second nature to me given that I had worked with several hardware modules by then. What was quite novel in the robots was its
-localization sytem and the planning module. 
+I was the sole software engineer given the hardware platform, and I set to work
+building the brain of the robots. This meant writing drivers for the motors,
+battery, localization system and path planning system. Most of that was second
+nature to me, given how many hardware modules I had worked with by then. What was
+genuinely novel in these robots was the localization system and the planning
+module.
 
 ## Approach
 
-Instead of the classical particle filter based localization, we decided to use a novel image based sensor which 
-would make images of the floor and then localize based on slight variations on the image. The sensor was a product in early stages of 
-production from Accerion, a company based in Netherlands. I integrated the accerion sensor into our robot - 
-improving the accerion SDK and fixing several bugs in their core-software in the process. This required closely working with the vendor company and testing
-their hardware and software on our robots. 
+Instead of classical particle-filter-based localization, we decided to use a
+novel image-based sensor that photographs the floor and localizes from slight
+variations in the image. The sensor was an early-production product from
+Accerion, a company based in the Netherlands. I integrated the Accerion sensor
+into our robot, improving their SDK and fixing several bugs in their core
+software in the process. That required working closely with the vendor and
+testing their hardware and software on our robots.
 
-Another challenge was to enable dynamic planning and replanning. The planning module was developed by RISC-software based on 
-time-window scheduling for the trajectories. Each robot would be given a schedule to occupy a time window and the control software 
-should make sure that the time windows are not violated. I developed the capability of time window tracking in the control software 
-so that controller could check and report on any violations.
+Another challenge was to enable dynamic planning and replanning. The planning
+module was developed by RISC Software and based on time-window scheduling for the
+trajectories. Each robot was given a schedule to occupy a time window, and the
+control software had to make sure those windows were not violated. I built
+time-window tracking into the control software so that the controller could check
+for violations and report them.
 
 ## Outcome
 
@@ -72,7 +79,8 @@ The platform kept going after I left. In January 2026 the FastBots Solution was
 [nominated for the IFOY Award 2026](https://www.ssi-schaefer.com/de-at/newsroom/news/fastbots-solution-nominiert-1991536)
 in the *Robot Warehouse System* category - a fleet of networked mobile transport
 robots under centralised fleet control, which is the system those first three
-iterations were converging towards. Today, the system is a full fledged product that has been tested in various warehouses.
+iterations were converging towards. Today the system is a full-fledged product that has been tested in a range of
+warehouses.
 
 <Figure
   src="media/fastbots-ifoy-2026.webp"

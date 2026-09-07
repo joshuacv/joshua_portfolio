@@ -7,8 +7,9 @@ period: 2024 - Present
 order: 2
 summary: >-
   Technical lead for the EU-funded OptiPEX project optimizing passenger experience in public transport systems.
-  My work here focuses on leading the development of onboard occupancy detection and also developing a novel pedestrian
-  localization system based on Ultra Wide Band Technology for reducing collision risk with pedestrians in shared spaces.
+  My work here leads the development of onboard occupancy detection and a novel
+  pedestrian localization system, based on ultra-wideband technology, that reduces
+  collision risk with pedestrians in shared spaces.
 tags:
   - ROS 2
   - Ultra Wide Band
@@ -42,20 +43,21 @@ import Figure from '../../components/Figure.astro';
 
 In the OptiPEX project, the goal is to optimize passenger experience onboard public
 transport systems and improve pedestrian safety in shared spaces. Being the technical lead of
-this project, I actively develop methods to communicate with and localize pedestrians using UWB technology, which
-is then fused with the AI/ML based pedestrian detection. Furthermore, I also manage the development and deployment of
-AI models capable of detecting the occupancy level of the compartments, enabling smart public transport systems.
+this project, I develop methods to communicate with and localize pedestrians
+using UWB technology, which is then fused with AI/ML-based pedestrian detection.
+I also manage the development and deployment of AI models that detect the
+occupancy level of individual compartments, enabling smarter public transport.
 
 ## Locating pedestrians with ultra-wideband
 
 A vehicle in a shared space has to know where the people around it are, and
-vision alone is a fragile way to find out due to challenges such as occlusion, dependence on 
-lighting conditions, weather conditions etc. The strand I develop directly uses **ultra-wideband** 
-to close that gap. UWB ranges by timing very short pulses rather than by measuring signal strength, so
+vision alone is a fragile way to find out: it struggles with occlusion and
+depends on lighting and weather. The strand I lead uses **ultra-wideband** to
+close that gap. UWB ranges by timing very short pulses rather than by measuring signal strength, so
 it degrades gracefully where narrowband radio and GNSS do not - it is far less
 disturbed by multipath in the reflective urban environments where shared spaces
 actually exist, and it does not depend on a clear sightline the way a camera
-does. This work was a followup work published at IV 2025 (link)
+does. This line of work follows on from our IV 2025 studies.
 
 Two things follow from that, and both are the work:
 
@@ -68,8 +70,8 @@ Two things follow from that, and both are the work:
   under exactly those conditions but knows nothing about the scene. Fused, each
   covers the other's failure mode.
 
-I evaluated three promising methods for pedestrian localization (GNSS, Bluetooth channel sounding and UWB)
-in the work below:
+I evaluated three promising methods for pedestrian localization - GNSS,
+Bluetooth channel sounding and UWB - in the study below.
 
 ### What the measurements showed
 
@@ -88,9 +90,8 @@ Distance RMSE, in metres:
 | Built-up | 17.31 | 1.39 | **0.51** |
 | Roofed, limited sky view | 20.76 | 2.01 | **0.63** |
 
-Smartphone-based location with 15 to 21 metres of
-error quite is useless for deciding whether a vehicle and a pedestrian are about to
-occupy the same space. UWB stays inside a metre in every condition tested, and
+Smartphone-based location, with 15 to 21 metres of error, is useless for deciding
+whether a vehicle and a pedestrian are about to occupy the same space. UWB stays inside a metre in every condition tested, and
 holds up under the roofed case that degrades GNSS most, which is exactly the
 geometry of the covered stops and station approaches this work targets.
 
@@ -107,8 +108,9 @@ Avoidance* at the **IEEE Intelligent Vehicles Symposium (IV 2026)** in Naples -
 
 ## Onboard occupancy detection
 
-Knowing how full a compartment is, carriage by carriage, the very useful capability for passengers to 
-board the correct carriage when the tram arrives. The approach here uses **CSRNet** - a crowd-counting architecture that regresses a
+Knowing how full each carriage is lets passengers board the right one when the
+tram arrives. The approach here uses **CSRNet** - a crowd-counting architecture
+that regresses a
 density map rather than detecting individual people, which is what makes it
 workable in a packed compartment where bodies occlude one another and
 person-by-person detection degrades fastest.
@@ -127,9 +129,11 @@ My role on this strand is **technical coordinator** and systems expert:
   the vehicle within a fixed power and thermal budget rather than in a data
   centre.
 
-Running AI models on real world systems requires overcoming significant regulatory and hardware constraints.  
-What can lawfully be recorded determines the training set, and what fits on the embedded platform determines 
-which model is deployable at all are also the kind of problems I deal with rather than just technical development.
+Running AI models on real-world systems means overcoming significant regulatory
+and hardware constraints, not just technical ones. What can lawfully be recorded
+determines the training set, and what fits on the embedded platform determines
+which model is deployable at all - and those are as much a part of my work as the
+development itself.
 
 ## Coordination
 
